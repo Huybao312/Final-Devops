@@ -1,0 +1,18 @@
+[Unit]
+Description=Todo Task Manager Flask application
+After=network.target
+
+[Service]
+Type=simple
+# Change these two paths if your project is installed elsewhere.
+User=www-data
+Group=www-data
+WorkingDirectory=/opt/todo-task-manager
+Environment="PATH=/opt/todo-task-manager/venv/bin"
+Environment="TODO_DATABASE=/opt/todo-task-manager/todo.db"
+ExecStart=/opt/todo-task-manager/venv/bin/gunicorn --workers 3 --bind 127.0.0.1:5000 --access-logfile - --error-logfile - app:app
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

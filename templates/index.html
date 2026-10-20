@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Todo Task Manager</title>
+  <style>
+    :root { color-scheme: light; font-family: Inter, ui-sans-serif, system-ui, sans-serif; color: #162033; background: #f4f7fb; }
+    * { box-sizing: border-box; } body { margin: 0; } main { width: min(920px, calc(100% - 32px)); margin: 56px auto; }
+    h1 { margin: 0 0 6px; font-size: clamp(2rem, 5vw, 3rem); } .subtitle { color: #64748b; margin: 0 0 30px; }
+    .card { background: white; border: 1px solid #e6ebf2; box-shadow: 0 12px 35px rgba(31, 46, 78, .07); border-radius: 16px; padding: 24px; }
+    form { margin: 0; } .new-task { display: grid; grid-template-columns: 1fr 1.6fr auto; gap: 10px; }
+    input { min-width: 0; border: 1px solid #cbd5e1; border-radius: 8px; padding: 11px 12px; font: inherit; }
+    button { border: 0; border-radius: 8px; padding: 10px 14px; cursor: pointer; font: inherit; font-weight: 650; background: #2563eb; color: white; }
+    button:hover { filter: brightness(.93); } .error { color: #b91c1c; background: #fef2f2; border-radius: 8px; padding: 10px; }
+    .tasks { display: grid; gap: 12px; margin-top: 22px; } .task { display: grid; grid-template-columns: auto 1fr auto; align-items: start; gap: 14px; padding: 16px; border: 1px solid #e6ebf2; border-radius: 12px; }
+    .task.done { background: #f8fafc; opacity: .72; } .task.done h2 { text-decoration: line-through; } h2 { margin: 0; font-size: 1.05rem; } p { margin: 5px 0 0; color: #64748b; white-space: pre-wrap; }
+    .actions { display: flex; gap: 8px; } .secondary { background: #e8eef9; color: #1e3a8a; } .danger { background: #fee2e2; color: #b91c1c; }
+    dialog { border: 0; border-radius: 14px; padding: 24px; width: min(460px, calc(100% - 32px)); box-shadow: 0 20px 60px rgba(15, 23, 42, .25); } dialog::backdrop { background: rgba(15, 23, 42, .45); }
+    .edit-form { display: grid; gap: 12px; } .edit-form input { width: 100%; } .edit-actions { display: flex; justify-content: end; gap: 8px; margin-top: 5px; }
+    .empty { text-align: center; color: #64748b; padding: 30px 0 10px; } @media (max-width: 650px) { main { margin-top: 28px; } .new-task { grid-template-columns: 1fr; } .task { grid-template-columns: auto 1fr; } .actions { grid-column: 1 / -1; } }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Todo Task Manager</h1>
+    <p class="subtitle">Organize what matters, one task at a time.</p>
+    <section class="card">
+      <form class="new-task" method="post" action="{{ url_for('create_task') }}">
+        <input name="title" maxlength="200" placeholder="Task title" required aria-label="Task title">
+        <input name="description" maxlength="1000" placeholder="Optional description" aria-label="Task description">
+        <button type="submit">Add task</button>
+      </form>
+      {% if request.args.get('error') %}<p class="error">{{ request.args['error'] }}</p>{% endif %}
+      <div class="tasks">
+        {% for task in tasks %}
+        <article class="task {% if task['completed'] %}done{% endif %}">
+          <form method="post" action="{{ url_for('toggle_task', task_id=task['id']) }}"><button class="secondary" type="submit" aria-label="Toggle task">{% if task['completed'] %}✓{% else %}○{% endif %}</button></form>
+          <div><h2>{{ task['title'] }}</h2>{% if task['description'] %}<p>{{ task['description'] }}</p>{% endif %}</div>
+          <div class="actions">
+            <button class="secondary" type="button" onclick="document.getElementById('edit-{{ task['id'] }}').showModal()">Edit</button>
+            <form method="post" action="{{ url_for('delete_task', task_id=task['id']) }}" onsubmit="return confirm('Delete this task?')"><button class="danger" type="submit">Delete</button></form>
+          </div>
+        </article>
+        <dialog id="edit-{{ task['id'] }}"><form class="edit-form" method="post" action="{{ url_for('edit_task', task_id=task['id']) }}"><h2>Edit task</h2><input name="title" value="{{ task['title'] }}" maxlength="200" required><input name="description" value="{{ task['description'] }}" maxlength="1000"><div class="edit-actions"><button class="secondary" type="button" onclick="this.closest('dialog').close()">Cancel</button><button type="submit">Save</button></div></form></dialog>
+        {% else %}
+        <p class="empty">No tasks yet. Add your first task above.</p>
+        {% endfor %}
+      </div>
+    </section>
+  </main>
+</body>
+</html>
