@@ -38,6 +38,15 @@ Checkpoint: **Deploy a Working Application** — tối đa 2.0/10 điểm.
 
 **Nguồn code:** ứng dụng do nhóm tự phát triển, không dùng app mã nguồn mở bên ngoài. Phùng Ngô Huy Bảo xây dựng phiên bản Flask + SQLite đầu tiên; Lê Hoàng Tùng chuyển lớp database sang PostgreSQL và triển khai hạ tầng. Không có code nghiệp vụ nào lấy từ nguồn khác.
 
+**Phạm vi tự triển khai:**
+
+| Hạng mục | Nhóm tự làm | Thành phần dùng sẵn |
+|---|---|---|
+| Ứng dụng | CRUD task, template HTML, schema PostgreSQL, migration SQLite → PostgreSQL | Flask, psycopg, Gunicorn |
+| Hạ tầng | Cấu hình UTM/Ubuntu, PostgreSQL role/database, Nginx, systemd, UFW, network | Ubuntu Server, PostgreSQL, Nginx |
+| Deploy & vận hành | `bootstrap.sh`, `setup-db.sh`, `verify-app.sh`, `server-info.sh`, `deploy.sh`, systemd/Nginx config | Git, GitHub |
+| Tài liệu | README, architecture, demo script, evidence checklist | draw.io |
+
 **Vì sao chuyển từ SQLite sang PostgreSQL?**
 
 - Week 2 yêu cầu `docker-compose.yml` có **application, database, network, persistent volume**; SQLite không có database service riêng.
@@ -312,7 +321,43 @@ sudo -u postgres psql -d todo -c "\dp public.tasks"
 sudo bash scripts/server-info.sh
 ```
 
-Output tại `docs/evidence/server-info.txt`, gồm OS, kernel, CPU, RAM, disk, IP, port đang listen, UFW, trạng thái service, phiên bản phần mềm và health check.
+Output tại `docs/evidence/server-info.txt`, gồm OS, kernel, CPU, RAM, disk, IP, port đang listen, UFW, trạng thái service, phiên bản phần mềm, user hiện tại, cấu hình SSH và health check.
+
+### 10.1. User và SSH
+
+Dùng một user thường có quyền `sudo`, không đăng nhập bằng `root`:
+
+```bash
+whoami
+id
+sudo -l
+```
+
+Kiểm tra cấu hình SSH thực tế:
+
+```bash
+sudo sshd -T | grep -E '^(port|permitrootlogin|passwordauthentication|pubkeyauthentication|allowusers|allowgroups)'
+sudo systemctl status ssh --no-pager
+sudo ufw status verbose
+```
+
+Khuyến nghị:
+
+- `PermitRootLogin no` hoặc tối thiểu `prohibit-password`; không để `yes`.
+- Ưu tiên SSH key; nếu dùng password cho demo local, dùng password mạnh và chỉ mở SSH trong UTM network.
+- Trước khi sửa `sshd_config`, giữ console UTM mở để tránh bị khóa.
+- UFW phải allow OpenSSH trước khi enable.
+
+Nếu `permitrootlogin yes`, sửa:
+
+```bash
+sudo nano /etc/ssh/sshd_config
+# PermitRootLogin no
+sudo sshd -t
+sudo systemctl reload ssh
+```
+
+Sau đó chụp `sshd -T` + `ufw status` làm evidence.
 
 Kiểm tra nhanh:
 

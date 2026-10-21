@@ -30,14 +30,23 @@ mkdir -p "$(dirname "$OUT")"
   echo "## Default route"
   ip route show default
   echo
+  echo "## Current user"
+  id
+  echo
+  echo "## SSH daemon configuration"
+  sshd -T 2>/dev/null | grep -E '^(port|permitrootlogin|passwordauthentication|pubkeyauthentication|allowusers|allowgroups)' || true
+  echo
   echo "## Listening TCP ports"
   ss -lntp
   echo
   echo "## UFW status"
   ufw status verbose || true
   echo
+  echo "## Secret file permissions"
+  stat -c '%A %U:%G %n' /etc/todo-task-manager.env 2>/dev/null || true
+  echo
   echo "## Service status"
-  systemctl --no-pager --full status flaskapp nginx postgresql || true
+  systemctl --no-pager --full status flaskapp nginx postgresql ssh || true
   echo
   echo "## Versions"
   nginx -v 2>&1 || true
