@@ -58,7 +58,7 @@ Checkpoint: **Deploy a Working Application** — tối đa 2.0/10 điểm.
 
 ![Architecture](docs/architecture.png)
 
-Sơ đồ có thể chỉnh sửa bằng draw.io tại [`docs/architecture.drawio`](docs/architecture.drawio); giải thích chi tiết tại [`docs/architecture.md`](docs/architecture.md).
+Sơ đồ: [`docs/architecture.png`](docs/architecture.png); giải thích chi tiết tại [`docs/architecture.md`](docs/architecture.md).
 
 ```mermaid
 flowchart LR
@@ -404,11 +404,11 @@ Không được làm:
 
 ## 12. Bằng chứng nộp bài
 
-Xem checklist chi tiết tại [`docs/evidence/README.md`](docs/evidence/README.md) và kịch bản demo tại [`docs/demo-script.md`](docs/demo-script.md).
+Xem checklist chi tiết tại [`docs/evidence/README.md`](docs/evidence/README.md).
 
 Tối thiểu cần có:
 
-- `docs/architecture.png` (export từ `docs/architecture.drawio`).
+- `docs/architecture.png` (đã có sẵn trong repo).
 - `docs/evidence/server-info.txt`.
 - `docs/evidence/verify-app.txt`.
 - Ảnh chụp giao diện app: danh sách task, form tạo, task sau khi sửa/toggle.

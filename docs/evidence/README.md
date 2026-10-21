@@ -13,7 +13,7 @@ Thư mục này chứa bằng chứng kỹ thuật cho checkpoint **Infrastructu
 | 5 | Trạng thái service | `systemctl status flaskapp nginx postgresql --no-pager` | `services.txt` |
 | 6 | Giao diện app | Chụp màn hình trình duyệt | `01-app-list.png`, `02-app-create.png` |
 | 7 | Dữ liệu trong DB | `sudo -u postgres psql -d todo -c "SELECT ..."` | `03-db-rows.png` hoặc `.txt` |
-| 8 | Kiến trúc | Export từ `docs/architecture.drawio` | `docs/architecture.png` |
+| 8 | Kiến trúc | Đã có sẵn trong repo | `docs/architecture.png` |
 | 9 | Video dự phòng | Quay màn hình demo 3–5 phút | `demo-fallback.mp4` (không commit nếu nặng) |
 
 ## 2. Lệnh thu thập

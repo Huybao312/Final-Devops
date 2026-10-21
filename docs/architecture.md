@@ -6,8 +6,7 @@
 
 ## 1. Sơ đồ
 
-Sơ đồ nguồn để chỉnh sửa: [`architecture.drawio`](architecture.drawio) (mở bằng draw.io / diagrams.net).  
-Ảnh export: [`architecture.png`](architecture.png).
+Ảnh kiến trúc: [`architecture.png`](architecture.png).
 
 ```mermaid
 flowchart LR
@@ -152,10 +151,6 @@ Kiến trúc Week 1 cố ý tách lớp để chuyển sang container mà không
 - Self-hosted runner trên Ubuntu VM vì GitHub-hosted runner không SSH trực tiếp vào VM local.
 - `scripts/deploy.sh` hiện tại là manual deploy, không được gọi là CI/CD.
 
-## 10. Chỉnh sửa và export sơ đồ
+## 10. Sơ đồ
 
-1. Mở <https://app.diagrams.net/>.
-2. **File → Open** → chọn `docs/architecture.drawio`.
-3. Chỉnh sửa nếu cần.
-4. **File → Export as → PNG**.
-5. Lưu thành `docs/architecture.png` (giữ đúng tên để README hiển thị).
+Ảnh chính thức dùng trong README và báo cáo là `docs/architecture.png`. Sơ đồ thể hiện đủ client, UTM network, Ubuntu VM, UFW, Nginx, Gunicorn/Flask, PostgreSQL và storage.

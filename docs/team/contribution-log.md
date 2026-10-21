@@ -16,7 +16,7 @@ Chỉ ghi **việc thật đã làm**. Mỗi dòng phải có commit hash hoặc
 - Cấu hình SSH, UFW, PostgreSQL role/database.
 - Viết `systemd/flaskapp.service`, `nginx/flaskapp`, `scripts/bootstrap.sh`, `scripts/setup-db.sh`.
 - Chuyển `app.py` từ SQLite sang psycopg/PostgreSQL.
-- Viết `README.md`, `docs/architecture.md`, `docs/architecture.drawio`.
+- Viết `README.md`, `docs/architecture.md` và sơ đồ `docs/architecture.png`.
 - Demo và trả lời Q&A.
 
 ### Phùng Ngô Huy Bảo
