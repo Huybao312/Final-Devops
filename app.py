@@ -1,44 +1,28 @@
 from __future__ import annotations
 
 import os
-import sqlite3
-from contextlib import closing
-from pathlib import Path
 
+import psycopg
 from flask import Flask, abort, g, jsonify, redirect, render_template, request, url_for
+from psycopg.rows import dict_row
+from werkzeug.middleware.proxy_fix import ProxyFix
 
-
-BASE_DIR = Path(__file__).resolve().parent
-DATABASE = Path(os.environ.get("TODO_DATABASE", BASE_DIR / "todo.db"))
+DATABASE_URL = os.environ.get("DATABASE_URL", "").strip()
+if not DATABASE_URL:
+    raise RuntimeError(
+        "DATABASE_URL is not set. Create /etc/todo-task-manager.env from "
+        "deploy/todo-task-manager.env.example (or run scripts/setup-db.sh)."
+    )
 
 app = Flask(__name__)
-app.config["DATABASE"] = DATABASE
+app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1)
 
 
-def get_db() -> sqlite3.Connection:
-    """Return one SQLite connection for the current request."""
+def get_db() -> psycopg.Connection:
+    """Return one PostgreSQL connection for the current request."""
     if "db" not in g:
-        g.db = sqlite3.connect(app.config["DATABASE"])
-        g.db.row_factory = sqlite3.Row
+        g.db = psycopg.connect(DATABASE_URL, row_factory=dict_row)
     return g.db
-
-
-def init_db() -> None:
-    """Create the tasks table if this is a fresh installation."""
-    app.config["DATABASE"].parent.mkdir(parents=True, exist_ok=True)
-    with closing(sqlite3.connect(app.config["DATABASE"])) as db:
-        db.execute(
-            """
-            CREATE TABLE IF NOT EXISTS tasks (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                title TEXT NOT NULL,
-                description TEXT NOT NULL DEFAULT '',
-                completed INTEGER NOT NULL DEFAULT 0,
-                created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
-            )
-            """
-        )
-        db.commit()
 
 
 @app.teardown_appcontext
@@ -52,7 +36,7 @@ def close_db(_error: BaseException | None = None) -> None:
 def index():
     tasks = get_db().execute(
         "SELECT id, title, description, completed, created_at "
-        "FROM tasks ORDER BY completed ASC, id DESC"
+        "FROM tasks ORDER BY completed ASC, created_at DESC, id DESC"
     ).fetchall()
     return render_template("index.html", tasks=tasks)
 
@@ -65,7 +49,10 @@ def create_task():
         return redirect(url_for("index", error="Task title is required."))
 
     db = get_db()
-    db.execute("INSERT INTO tasks (title, description) VALUES (?, ?)", (title, description))
+    db.execute(
+        "INSERT INTO tasks (title, description) VALUES (%s, %s)",
+        (title, description),
+    )
     db.commit()
     return redirect(url_for("index"))
 
@@ -79,7 +66,7 @@ def edit_task(task_id: int):
 
     db = get_db()
     result = db.execute(
-        "UPDATE tasks SET title = ?, description = ? WHERE id = ?",
+        "UPDATE tasks SET title = %s, description = %s WHERE id = %s",
         (title, description, task_id),
     )
     if result.rowcount == 0:
@@ -92,7 +79,7 @@ def edit_task(task_id: int):
 def toggle_task(task_id: int):
     db = get_db()
     result = db.execute(
-        "UPDATE tasks SET completed = CASE completed WHEN 1 THEN 0 ELSE 1 END WHERE id = ?",
+        "UPDATE tasks SET completed = NOT completed WHERE id = %s",
         (task_id,),
     )
     if result.rowcount == 0:
@@ -104,7 +91,7 @@ def toggle_task(task_id: int):
 @app.post("/tasks/<int:task_id>/delete")
 def delete_task(task_id: int):
     db = get_db()
-    result = db.execute("DELETE FROM tasks WHERE id = ?", (task_id,))
+    result = db.execute("DELETE FROM tasks WHERE id = %s", (task_id,))
     if result.rowcount == 0:
         abort(404)
     db.commit()
@@ -115,13 +102,10 @@ def delete_task(task_id: int):
 def health():
     try:
         get_db().execute("SELECT 1").fetchone()
-    except sqlite3.Error:
+    except psycopg.Error:
         return jsonify(status="unhealthy"), 503
     return jsonify(status="healthy"), 200
 
 
-init_db()
-
-
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run(host="127.0.0.1", port=5000)
