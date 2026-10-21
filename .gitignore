@@ -1,5 +1,14 @@
 venv/
 __pycache__/
 *.py[cod]
+*.log
 todo.db
 .DS_Store
+.pytest_cache/
+.mypy_cache/
+
+# Secrets: never commit the real environment file or database dumps.
+.env
+*.env
+*.dump
+*.sql.gz
