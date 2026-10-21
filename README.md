@@ -128,6 +128,7 @@ Phiên bản Python/PostgreSQL/Nginx thực tế phải được ghi lại trong
   ```bash
   hostname -I
   ```
+- Nếu `free -h` cho thấy RAM dưới 2 GB, giảm `--workers 3` xuống `--workers 2` trong `systemd/flaskapp.service` trước khi chạy bootstrap. Với 4 GB RAM, cấu hình 3 worker là thoải mái.
 
 ## 7. Cài đặt nhanh (khuyến nghị)
 
@@ -435,6 +436,24 @@ sudo ufw allow OpenSSH
 sudo ufw reload
 ```
 **Phòng tránh:** luôn allow SSH trước khi `ufw enable`.
+
+### 13.7. Safari/Chrome trên Mac không mở được `http://<VM_IP>/`
+
+**Kiểm tra từ Mac:**
+```bash
+ping -c 3 <VM_IP>
+```
+
+**Trên VM:**
+```bash
+systemctl status nginx --no-pager
+sudo ufw status verbose
+ss -lntp | grep ':80'
+```
+
+**Nguyên nhân thường gặp:** UTM network không phải Shared, IP đổi sau reboot, Nginx chưa chạy, hoặc UFW thiếu rule 80.  
+**Khắc phục:** sửa theo nguyên nhân; nếu vẫn không được, thêm port forward trong UTM (host `8080` → guest `80`) và mở `http://localhost:8080/` trên Mac.  
+**Phòng tránh:** kiểm tra `hostname -I` ngay trước demo; giữ ảnh/video dự phòng.
 
 ## 14. Vận hành
 
