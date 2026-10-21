@@ -30,6 +30,39 @@ Nếu IP đổi:
 hostname -I
 ```
 
+## 0.1. “Máy khách” là máy nào?
+
+**Không cần máy của người khác.** Trong mô hình này:
+
+- **Máy chủ:** Ubuntu VM trong UTM, IP `192.168.64.x`.
+- **Máy khách:** macOS host, IP `192.168.64.1`, dùng Safari/Chrome.
+
+Đây là client–server thật vì request đi qua UTM Shared Network, không phải `localhost` bên trong VM.
+
+- **Đúng:** mở `http://<VM_IP>/` từ Safari trên Mac.
+- **Sai:** SSH vào VM rồi mở `http://127.0.0.1:5000` — đó là loopback, không chứng minh được mô hình mạng.
+
+Chứng minh nhanh:
+
+```bash
+# Trên Mac
+curl -v http://<VM_IP>/health
+
+# Trên VM, trong lúc refresh trang từ Mac
+sudo tail -f /var/log/nginx/todo-access.log
+```
+
+Log Nginx phải hiện IP `192.168.64.1` (hoặc IP của máy khách), chứng minh request đi từ máy khác vào server.
+
+### Nếu giảng viên bắt buộc dùng thiết bị thứ ba
+
+UTM Shared Network là NAT: điện thoại/laptop khác trong Wi-Fi **không** truy cập được `192.168.64.x`. Đừng mở 5432/5000 hay tắt UFW để “cứu” demo.
+
+1. **Cách khuyến nghị:** UTM Port Forwarding, host `8080` → guest `80`; thiết bị thứ ba mở `http://<Mac_LAN_IP>:8080/`. Cho phép macOS firewall nếu được hỏi; tắt forward sau demo.
+2. **Cách khác:** chuyển VM sang Bridged (Advanced) để VM nhận IP LAN; rủi ro hơn nếu Wi-Fi chặn hoặc đổi mạng.
+
+Nếu chỉ trình bày qua projector/screen share, dùng Mac host làm máy khách là đủ và đúng yêu cầu.
+
 ## 1. Kiến trúc (30 giây)
 
 Nói:
