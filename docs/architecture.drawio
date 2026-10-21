@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2026-10-21T00:00:00.000Z" agent="opencode" version="24.7.17" type="device">
+  <diagram id="week1-architecture" name="Week 1 - Architecture">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="826" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="title" value="Todo Task Manager — Week 1 Deployment Architecture" style="text;html=1;align=left;verticalAlign=middle;fontSize=22;fontStyle=1;fontColor=#1f2937;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="760" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle" value="Ubuntu Server 26.04 ARM64 · UTM Shared Network · Nginx → Gunicorn → Flask → PostgreSQL" style="text;html=1;align=left;verticalAlign=middle;fontSize=12;fontColor=#64748b;" vertex="1" parent="1">
+          <mxGeometry x="40" y="55" width="820" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="legend" value="&lt;b&gt;Legend&lt;/b&gt;&lt;br&gt;→ solid: request path&lt;br&gt;⇢ dashed: admin path&lt;br&gt;red: security control" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=11;align=left;spacingLeft=10;verticalAlign=top;spacingTop=4;" vertex="1" parent="1">
+          <mxGeometry x="900" y="25" width="250" height="75" as="geometry" />
+        </mxCell>
+
+        <mxCell id="client" value="&lt;b&gt;MacBook M1 (host)&lt;/b&gt;&lt;br&gt;Safari / Chrome&lt;br&gt;192.168.64.1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="40" y="150" width="190" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="admin" value="&lt;b&gt;Admin (macOS)&lt;/b&gt;&lt;br&gt;Terminal / SSH&lt;br&gt;scripts, logs, backup" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="40" y="420" width="190" height="110" as="geometry" />
+        </mxCell>
+
+        <mxCell id="utm" value="UTM Shared Network — 192.168.64.0/24 (NAT)" style="rounded=0;whiteSpace=wrap;html=1;dashed=1;dashPattern=8 8;fillColor=none;strokeColor=#666666;verticalAlign=top;align=left;spacingLeft=10;spacingTop=6;fontStyle=1;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="270" y="110" width="880" height="600" as="geometry" />
+        </mxCell>
+        <mxCell id="vm" value="Ubuntu Server 26.04 ARM64 — UTM VM (DHCP 192.168.64.x)" style="rounded=0;whiteSpace=wrap;html=1;dashed=1;dashPattern=6 6;fillColor=none;strokeColor=#1f4e79;verticalAlign=top;align=left;spacingLeft=10;spacingTop=6;fontStyle=1;fontSize=13;fontColor=#1f4e79;" vertex="1" parent="1">
+          <mxGeometry x="310" y="160" width="810" height="520" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ufw" value="&lt;b&gt;UFW firewall&lt;/b&gt;&lt;br&gt;allow 22/tcp (SSH)&lt;br&gt;allow 80/tcp (HTTP)&lt;br&gt;deny everything else" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="340" y="220" width="180" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="nginx" value="&lt;b&gt;Nginx :80&lt;/b&gt;&lt;br&gt;reverse proxy&lt;br&gt;server_tokens off&lt;br&gt;security headers" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="570" y="220" width="200" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="gunicorn" value="&lt;b&gt;Gunicorn 127.0.0.1:5000&lt;/b&gt;&lt;br&gt;Flask 3.1.3&lt;br&gt;3 workers&lt;br&gt;user: www-data" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="570" y="370" width="200" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="postgres" value="&lt;b&gt;PostgreSQL 127.0.0.1:5432&lt;/b&gt;&lt;br&gt;database: todo&lt;br&gt;role: todo_app (DML only)&lt;br&gt;owner: todo_owner (NOLOGIN)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="850" y="370" width="220" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="storage" value="&lt;b&gt;Persistent storage&lt;/b&gt;&lt;br&gt;/var/lib/postgresql&lt;br&gt;UTM virtual disk" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="865" y="540" width="190" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="env" value="&lt;b&gt;/etc/todo-task-manager.env&lt;/b&gt;&lt;br&gt;DATABASE_URL&lt;br&gt;root:root, mode 0600&lt;br&gt;not committed to Git" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="340" y="390" width="180" height="110" as="geometry" />
+        </mxCell>
+
+        <mxCell id="osnote" value="&lt;b&gt;Host:&lt;/b&gt; Ubuntu Server 26.04 ARM64 · 2 vCPU / 4 GB RAM / 20 GB disk&lt;br&gt;&lt;b&gt;App:&lt;/b&gt; /opt/todo-task-manager · Python venv · systemd unit flaskapp&lt;br&gt;&lt;b&gt;Rule:&lt;/b&gt; 5000 and 5432 bind to 127.0.0.1 only — never exposed to the UTM network" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontSize=11;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="340" y="540" width="470" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e-client-nginx" value="HTTP :80" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#1f4e79;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="client" target="nginx">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-admin-ufw" value="SSH :22" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;dashed=1;strokeWidth=2;strokeColor=#b85450;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="admin" target="ufw">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-ufw-nginx" value="allow 80" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#b85450;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="ufw" target="nginx">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-nginx-gunicorn" value="proxy_pass&lt;br&gt;127.0.0.1:5000" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#1f4e79;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="nginx" target="gunicorn">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-gunicorn-postgres" value="TCP 5432&lt;br&gt;loopback only" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#d79b00;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="gunicorn" target="postgres">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-postgres-storage" value="data files" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#666666;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="postgres" target="storage">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-env-gunicorn" value="DATABASE_URL" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;dashed=1;strokeWidth=2;strokeColor=#d6b656;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="env" target="gunicorn">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
