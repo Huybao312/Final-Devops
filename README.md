@@ -115,7 +115,12 @@ Phiên bản Python/PostgreSQL/Nginx thực tế phải được ghi lại trong
 
 - MacBook M1 chạy UTM.
 - Ubuntu Server 26.04 LTS **ARM64** đã cài trong UTM.
-- Tài khoản có quyền `sudo`, SSH bật.
+- Tài khoản có quyền `sudo`, SSH bật. Nếu chưa có SSH, mở UTM console và chạy:
+  ```bash
+  sudo apt update
+  sudo apt install -y openssh-server
+  sudo systemctl enable --now ssh
+  ```
 - Tối thiểu: 2 vCPU, 4 GB RAM, 20 GB disk. Kiểm tra bằng:
   ```bash
   nproc
