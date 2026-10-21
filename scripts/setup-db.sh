@@ -36,6 +36,10 @@ fi
 systemctl enable --now postgresql
 
 DB_PASSWORD="${DB_PASSWORD:-$(openssl rand -hex 24)}"
+if [[ ! "$DB_PASSWORD" =~ ^[A-Za-z0-9._~-]+$ ]]; then
+  echo "ERROR: DB_PASSWORD must contain only URL-safe characters (A-Z a-z 0-9 . _ ~ -)." >&2
+  exit 1
+fi
 
 role_exists() {
   runuser -u postgres -- psql -tAc "SELECT 1 FROM pg_roles WHERE rolname = '$1'" | grep -q 1
