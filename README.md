@@ -451,8 +451,8 @@ sudo ufw status verbose
 ss -lntp | grep ':80'
 ```
 
-**Nguyên nhân thường gặp:** UTM network không phải Shared, IP đổi sau reboot, Nginx chưa chạy, hoặc UFW thiếu rule 80.  
-**Khắc phục:** sửa theo nguyên nhân; nếu vẫn không được, thêm port forward trong UTM (host `8080` → guest `80`) và mở `http://localhost:8080/` trên Mac.  
+**Nguyên nhân thường gặp:** UTM network không phải Shared, IP đổi sau reboot, Nginx chưa chạy, hoặc UFW thiếu rule 80.<br>
+**Khắc phục:** sửa theo nguyên nhân; nếu vẫn không được, thêm port forward trong UTM (host `8080` → guest `80`) và mở `http://localhost:8080/` trên Mac.<br>
 **Phòng tránh:** kiểm tra `hostname -I` ngay trước demo; giữ ảnh/video dự phòng.
 
 ## 14. Vận hành
