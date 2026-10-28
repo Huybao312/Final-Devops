@@ -8,6 +8,7 @@
     :root { color-scheme: light; font-family: Inter, ui-sans-serif, system-ui, sans-serif; color: #162033; background: #f4f7fb; }
     * { box-sizing: border-box; } body { margin: 0; } main { width: min(920px, calc(100% - 32px)); margin: 56px auto; }
     h1 { margin: 0 0 6px; font-size: clamp(2rem, 5vw, 3rem); } .subtitle { color: #64748b; margin: 0 0 30px; }
+    .task-count { display: inline-block; margin-left: 8px; padding: 4px 10px; border-radius: 999px; background: #dbeafe; color: #1e40af; font-size: .85rem; font-weight: 700; }
     .card { background: white; border: 1px solid #e6ebf2; box-shadow: 0 12px 35px rgba(31, 46, 78, .07); border-radius: 16px; padding: 24px; }
     form { margin: 0; } .new-task { display: grid; grid-template-columns: 1fr 1.6fr auto; gap: 10px; }
     input { min-width: 0; border: 1px solid #cbd5e1; border-radius: 8px; padding: 11px 12px; font: inherit; }
@@ -24,7 +25,7 @@
 <body>
   <main>
     <h1>Todo Task Manager</h1>
-    <p class="subtitle">Plan your day, one task at a time. — Week 2 live demo</p>
+    <p class="subtitle">Plan your day, one task at a time. — Week 2 live demo <span class="task-count">Open tasks: {{ open_tasks }}</span></p>
     <section class="card">
       <form class="new-task" method="post" action="{{ url_for('create_task') }}">
         <input name="title" maxlength="200" placeholder="Task title" required aria-label="Task title">

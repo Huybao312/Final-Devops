@@ -38,7 +38,8 @@ def index():
         "SELECT id, title, description, completed, created_at "
         "FROM tasks ORDER BY completed ASC, created_at DESC, id DESC"
     ).fetchall()
-    return render_template("index.html", tasks=tasks)
+    open_tasks = sum(not task["completed"] for task in tasks)
+    return render_template("index.html", tasks=tasks, open_tasks=open_tasks)
 
 
 @app.post("/tasks")
