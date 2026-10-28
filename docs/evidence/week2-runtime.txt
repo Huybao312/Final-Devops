@@ -1,0 +1,31 @@
+# Week 2 runtime evidence from Ubuntu VM
+2026-10-28T04:23:01+00:00
+Source commit: 25950bb9751de2b20d0f4e81598107405b870faa
+## Containers
+NAME                      IMAGE                     COMMAND                  SERVICE   CREATED          STATUS                    PORTS
+todo-task-manager-app-1   todo-task-manager:local   "gunicorn --workers …"   app       27 seconds ago   Up 21 seconds (healthy)   127.0.0.1:5000->5000/tcp
+todo-task-manager-db-1    postgres:18               "docker-entrypoint.s…"   db        27 seconds ago   Up 27 seconds (healthy)   5432/tcp
+## Health and version via Nginx
+{"status":"healthy"}
+
+{"version":"local"}
+
+## Database rows and roles
+5
+todo_app|t
+todo_owner|f
+t|t|f
+## Listening ports
+LISTEN 0      511          0.0.0.0:80        0.0.0.0:*
+LISTEN 0      4096         0.0.0.0:22        0.0.0.0:*
+LISTEN 0      200        127.0.0.1:5432      0.0.0.0:*
+LISTEN 0      4096       127.0.0.1:5000      0.0.0.0:*
+LISTEN 0      511             [::]:80           [::]:*
+LISTEN 0      4096            [::]:22           [::]:*
+## Original services
+inactive
+active
+active
+## Backup files
+-rw------- 1 ubuntusever ubuntusever 1.4K Oct 28 04:21 /home/ubuntusever/todo-week1-final-20261028-042114.sql
+-rw------- 1 ubuntusever ubuntusever 7.3K Oct 28 04:17 /home/ubuntusever/todo-week1-preflight-20261028-041746.dump
