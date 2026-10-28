@@ -19,12 +19,16 @@ def schema():
 
 
 def test_health_and_crud():
+    with psycopg.connect(os.environ["DATABASE_URL"]) as db:
+        open_before = db.execute("SELECT count(*) FROM tasks WHERE NOT completed").fetchone()[0]
     title = f"ci-{uuid.uuid4().hex}"
     with app.test_client() as client:
         assert client.get("/health").json == {"status": "healthy"}
         response = client.post("/tasks", data={"title": title, "description": "created"})
         assert response.status_code == 302
-        assert title.encode() in client.get("/").data
+        page = client.get("/").data
+        assert title.encode() in page
+        assert f"Open tasks: {open_before + 1}".encode() in page
 
         with psycopg.connect(os.environ["DATABASE_URL"]) as db:
             task_id, description, completed = db.execute(
@@ -38,6 +42,8 @@ def test_health_and_crud():
                 data={"title": title, "description": "edited"},
             ).status_code == 302
             assert client.post(f"/tasks/{task_id}/toggle").status_code == 302
+            page = client.get("/").data
+            assert f"Open tasks: {open_before}".encode() in page
             with psycopg.connect(os.environ["DATABASE_URL"]) as db:
                 assert db.execute(
                     "SELECT description, completed FROM tasks WHERE id = %s", (task_id,)
