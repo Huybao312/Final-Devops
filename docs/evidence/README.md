@@ -67,3 +67,13 @@ ls -lah docs/evidence/
 - [ ] `ss -lntp` không có 5000/5432 bind `0.0.0.0`.
 - [ ] Có video/screenshot dự phòng nếu mạng UTM lỗi.
 - [ ] Repo đã push commit mới nhất.
+
+## 6. Bằng chứng Week 2
+
+- [`week2-cutover.txt`](week2-cutover.txt): 4 bản ghi và checksum trùng giữa PostgreSQL tuần 1 và container.
+- [`week2-persistence.txt`](week2-persistence.txt): task còn sau `docker compose down` và `up` trên VM.
+- [`week2-runtime.txt`](week2-runtime.txt): container, health, role và port trước deploy tự động.
+- [`week2-deploy.txt`](week2-deploy.txt): workflow `build-test → deploy` xanh, `/version` đổi từ `local` sang SHA commit mới, DB vẫn còn dữ liệu.
+- [`week2-app-after.png`](week2-app-after.png): giao diện từ Mac sau deploy.
+
+Log và ảnh tuần 2 là kết quả chạy thật trên VM hoặc máy Mac, không chứa password/token. Video demo có lời giải thích của nhóm vẫn cần nhóm tự ghi.
