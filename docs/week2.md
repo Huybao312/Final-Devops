@@ -10,25 +10,27 @@ PostgreSQL không publish port lên host và chỉ nối network nội bộ `bac
 
 ## 1. Chuẩn bị VM và runner
 
-1. Trên Ubuntu VM, sau khi clone nhánh tuần 2 vào một thư mục riêng, chạy `sudo bash scripts/prepare-week2-vm.sh`. Script lưu bản dump đầy đủ ngoài repo, rồi cài [Docker Engine và Compose plugin](https://docs.docker.com/engine/install/ubuntu/) từ repository chính thức, thêm user vào nhóm `docker`. Đăng xuất/đăng nhập lại để nhận nhóm mới; kiểm tra `docker version` và `docker compose version`. Quyền nhóm `docker` gần tương đương root; chỉ đăng ký runner cho repo tin cậy, giới hạn người có quyền push `main` và review workflow trước khi merge.
+1. Trên Ubuntu VM, giữ nguyên repo tuần 1 tại `/opt/todo-task-manager`. Clone nhánh tuần 2 vào `/home/ubuntusever/Final-Devops-week2`, rồi chạy `sudo bash /home/ubuntusever/Final-Devops-week2/scripts/prepare-week2-vm.sh`. Script lưu bản dump đầy đủ ngoài repo, rồi cài [Docker Engine và Compose plugin](https://docs.docker.com/engine/install/ubuntu/) từ repository chính thức, thêm user vào nhóm `docker`. Đăng xuất/đăng nhập lại để nhận nhóm mới; kiểm tra `docker version` và `docker compose version`. Quyền nhóm `docker` gần tương đương root; chỉ đăng ký runner cho repo tin cậy, giới hạn người có quyền push `main` và review workflow trước khi merge.
 2. Trong GitHub repo, mở **Settings → Actions → Runners → New self-hosted runner**. Chọn Linux ARM64, chạy các lệnh GitHub đưa ra trên chính VM. [Đăng ký thêm label `todo-vm`](https://docs.github.com/en/actions/how-tos/manage-runners/self-hosted-runners/apply-labels) và cài runner làm service. Không commit token đăng ký. Kiểm tra runner hiển thị **Idle**. Máy Mac và VM cần Internet outbound tới GitHub; VM không cần public IP hoặc inbound SSH từ GitHub.
 3. Tạo ba chuỗi hex độc lập bằng `openssl rand -hex 24`. Đặt chúng trong GitHub **Settings → Secrets and variables → Actions** với tên `DB_ADMIN_PASSWORD`, `DB_APP_PASSWORD`, `CI_DB_PASSWORD`. Hai secret đầu dùng cho VM và phải khớp `.env` lúc khởi tạo volume; `CI_DB_PASSWORD` chỉ dùng cho PostgreSQL tạm trên GitHub-hosted runner. Không đổi hai secret VM sau lần khởi tạo DB nếu chưa đổi password tương ứng trong PostgreSQL. Các giá trị phải là chuỗi URL-safe.
 4. Tạo GitHub environment tên `production`. Nếu muốn duyệt trước mỗi deploy, cấu hình required reviewers; để demo tự động từ push, không đặt approval gate. Workflow deploy chỉ chạy sau job `build-test` thành công.
 
 ## 2. Chuyển dữ liệu từ PostgreSQL tuần 1
 
-Chạy trên VM với source mới tại `/opt/todo-task-manager`. **Không xóa database/volume cũ và không dùng `docker compose down -v`.** Kiểm tra `sudo systemctl status flaskapp postgresql nginx` và giữ một bản backup nằm ngoài repo. Dừng app cũ trước bản dump cuối để không có ghi mới trong lúc chuyển dữ liệu; Nginx sẽ tạm trả 502 trong khoảng cắt dịch vụ.
+Chạy trên VM với source mới tại `/home/ubuntusever/Final-Devops-week2`. **Không xóa database/volume cũ và không dùng `docker compose down -v`.** Kiểm tra `sudo systemctl status flaskapp postgresql nginx` và giữ bản backup của bước chuẩn bị. Tạo `.env` với đúng hai production secrets ở GitHub, mode `0600`, rồi chạy `sudo bash scripts/cutover-week2-vm.sh` trong thư mục tuần 2. Script dừng app cũ, lấy dump cuối, import vào volume mới, so sánh số bản ghi và checksum, bật app container, kiểm tra qua Nginx. Nếu bước nào lỗi, script khởi động lại `flaskapp` cũ. Nginx tạm trả 502 trong khoảng cắt dịch vụ.
+
+Các lệnh dưới đây mô tả từng bước script thực hiện; dùng khi cần giải thích hoặc xử lý sự cố. **Không chạy lại phần import nếu volume đã có dữ liệu.**
 
 ```bash
-cd /opt/todo-task-manager
+cd /home/ubuntusever/Final-Devops-week2
 sudo systemctl stop flaskapp
 sudo -u postgres pg_dump --data-only --no-owner --no-privileges -d todo > "$HOME/todo-week1-data.sql"
 chmod 600 "$HOME/todo-week1-data.sql"
 sudo -u postgres psql -d todo -tAc 'SELECT count(*) FROM public.tasks;'
 
-cp deploy/compose.env.example .env
+test -f .env || cp deploy/compose.env.example .env
 chmod 600 .env
-# Sửa .env: dùng CHÍNH HAI giá trị đã đặt trong GitHub Secrets.
+# Nếu vừa tạo .env, sửa hai giá trị mẫu thành CHÍNH HAI giá trị đã đặt trong GitHub Secrets.
 # Không lưu mật khẩu vào history hoặc screenshot.
 docker compose up -d --wait db
 docker compose exec -T db psql -U postgres -d todo < "$HOME/todo-week1-data.sql"
