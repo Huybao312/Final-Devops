@@ -1,0 +1,5 @@
+Creating week2-persistence-1793161353-19973 through the application
+Recreating both containers without removing the named volume
+{"status":"healthy"}
+
+PASS: task survived container recreation and is visible in database and UI
