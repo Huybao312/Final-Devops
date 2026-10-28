@@ -1,0 +1,17 @@
+# Week 2 cutover excerpt
+# Captured from UTM console output of scripts/cutover-week2-vm.sh, 2026-10-28.
+# Full application image build output is omitted here; the lines below are verbatim.
+
+Week 1 count and checksum: 4|4c566b9ac07fa11005d05739079f192e
+==> Initializing PostgreSQL 18 container and importing data
+COPY 4
+ setval
+--------
+      7
+(1 row)
+Container count and checksum: 4|4c566b9ac07fa11005d05739079f192e
+==> Starting container app behind existing Nginx
+{"status":"healthy"}
+Removed '/etc/systemd/system/multi-user.target.wants/flaskapp.service'.
+PASS: data matched and container app is serving through Nginx.
+The Week 1 PostgreSQL service and its data remain available for rollback.
