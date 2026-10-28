@@ -2,13 +2,13 @@ name: todo-task-manager
 
 services:
   db:
-    image: postgres:16
+    image: postgres:18
     environment:
       POSTGRES_DB: todo
       POSTGRES_PASSWORD: ${DB_ADMIN_PASSWORD:?Set DB_ADMIN_PASSWORD in .env}
       TODO_APP_PASSWORD: ${DB_APP_PASSWORD:?Set DB_APP_PASSWORD in .env}
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql
       - ./db/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
       - ./db/init-roles.sh:/docker-entrypoint-initdb.d/02-init-roles.sh:ro
     networks:

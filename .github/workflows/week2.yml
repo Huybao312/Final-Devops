@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     services:
       postgres:
-        image: postgres:16
+        image: postgres:18
         env:
           POSTGRES_DB: todo_test
           POSTGRES_PASSWORD: ${{ secrets.CI_DB_PASSWORD }}

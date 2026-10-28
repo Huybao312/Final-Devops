@@ -4,13 +4,13 @@ Tài liệu này mô tả đường đi từ commit trên `main` đến ứng d�
 
 ## Kiến trúc tuần 2
 
-Mac browser → UTM VM `:80` → Nginx của tuần 1 → `127.0.0.1:5000` → Gunicorn/Flask container → network `backend` → PostgreSQL container → named volume `todo-task-manager_postgres_data`.
+Mac browser → UTM VM `:80` → Nginx của tuần 1 → `127.0.0.1:5000` → Gunicorn/Flask container → network `backend` → PostgreSQL 18 container → named volume `todo-task-manager_postgres_data`.
 
-PostgreSQL không publish port lên host. App chỉ publish `127.0.0.1:5000`. Nginx và UFW tuần 1 tiếp tục phục vụ cổng 80. `db/schema.sql` và `db/init-roles.sh` chỉ khởi tạo khi volume còn trống. `todo_app` chỉ có quyền đọc/ghi bảng; `todo_owner` không đăng nhập.
+PostgreSQL không publish port lên host và chỉ nối network nội bộ `backend`. App nối `backend` và `frontend`, chỉ publish `127.0.0.1:5000` (có thể đổi cổng host bằng `APP_BIND_PORT` khi thử cục bộ). Nginx và UFW tuần 1 tiếp tục phục vụ cổng 80. Với image PostgreSQL 18, named volume gắn tại `/var/lib/postgresql`; `db/schema.sql` và `db/init-roles.sh` chỉ khởi tạo khi volume còn trống. `todo_app` chỉ có quyền đọc/ghi bảng; `todo_owner` không đăng nhập.
 
 ## 1. Chuẩn bị VM và runner
 
-1. Cài [Docker Engine và Compose plugin](https://docs.docker.com/engine/install/ubuntu/) trên Ubuntu theo hướng dẫn chính thức cho phiên bản Ubuntu đang dùng; kiểm tra `docker version` và `docker compose version`. User chạy runner cần quyền chạy Docker (thường là nhóm `docker`). Quyền này gần tương đương root; chỉ đăng ký runner cho repo tin cậy, giới hạn người có quyền push `main` và review workflow trước khi merge.
+1. Trên Ubuntu VM, sau khi clone nhánh tuần 2 vào một thư mục riêng, chạy `sudo bash scripts/prepare-week2-vm.sh`. Script lưu bản dump đầy đủ ngoài repo, rồi cài [Docker Engine và Compose plugin](https://docs.docker.com/engine/install/ubuntu/) từ repository chính thức, thêm user vào nhóm `docker`. Đăng xuất/đăng nhập lại để nhận nhóm mới; kiểm tra `docker version` và `docker compose version`. Quyền nhóm `docker` gần tương đương root; chỉ đăng ký runner cho repo tin cậy, giới hạn người có quyền push `main` và review workflow trước khi merge.
 2. Trong GitHub repo, mở **Settings → Actions → Runners → New self-hosted runner**. Chọn Linux ARM64, chạy các lệnh GitHub đưa ra trên chính VM. [Đăng ký thêm label `todo-vm`](https://docs.github.com/en/actions/how-tos/manage-runners/self-hosted-runners/apply-labels) và cài runner làm service. Không commit token đăng ký. Kiểm tra runner hiển thị **Idle**. Máy Mac và VM cần Internet outbound tới GitHub; VM không cần public IP hoặc inbound SSH từ GitHub.
 3. Tạo ba chuỗi hex độc lập bằng `openssl rand -hex 24`. Đặt chúng trong GitHub **Settings → Secrets and variables → Actions** với tên `DB_ADMIN_PASSWORD`, `DB_APP_PASSWORD`, `CI_DB_PASSWORD`. Hai secret đầu dùng cho VM và phải khớp `.env` lúc khởi tạo volume; `CI_DB_PASSWORD` chỉ dùng cho PostgreSQL tạm trên GitHub-hosted runner. Không đổi hai secret VM sau lần khởi tạo DB nếu chưa đổi password tương ứng trong PostgreSQL. Các giá trị phải là chuỗi URL-safe.
 4. Tạo GitHub environment tên `production`. Nếu muốn duyệt trước mỗi deploy, cấu hình required reviewers; để demo tự động từ push, không đặt approval gate. Workflow deploy chỉ chạy sau job `build-test` thành công.
