@@ -527,15 +527,15 @@ sudo -u postgres psql -d todo
 
 ## 15. Tuần 2 — Containerization & CI/CD
 
-Đã thêm `Dockerfile`, `compose.yaml`, test tích hợp PostgreSQL và GitHub Actions. Xem [hướng dẫn triển khai tuần 2](docs/week2.md) để cài runner ARM64 trên VM, chuyển dữ liệu tuần 1, bật pipeline và thu minh chứng thật. Trạng thái workflow/deploy chỉ được xác nhận sau khi chạy trên VM.
+Đã triển khai `Dockerfile`, `compose.yaml`, test tích hợp PostgreSQL và GitHub Actions trên Ubuntu VM UTM. Xem [hướng dẫn triển khai tuần 2](docs/week2.md) và [bằng chứng thực tế](docs/evidence/README.md).
 
-### Cần kiểm chứng trên VM
+### Đã kiểm chứng trên VM
 
-- Chuyển dữ liệu từ PostgreSQL tuần 1 sang volume `todo-task-manager_postgres_data`, đối chiếu số bản ghi.
-- Đăng ký self-hosted runner Linux ARM64 trên VM và thêm GitHub Secrets theo `docs/week2.md`.
-- Chạy workflow `build-test → deploy` xanh; `/version` phải trả đúng SHA của commit vừa push.
-- Chạy `scripts/verify-week2.sh` để chứng minh dữ liệu còn sau `docker compose down && up`.
-- Lưu workflow logs và ảnh/video trước–sau deploy vào `docs/evidence/`.
+- Chuyển 4 bản ghi từ PostgreSQL tuần 1 sang named volume; số bản ghi và checksum trùng khớp.
+- Self-hosted runner Linux ARM64 chạy bằng systemd; secrets nằm trong GitHub Actions, không ở repo.
+- Workflow `build-test → deploy` xanh sau push `main`; `/version` trả đúng SHA commit được deploy.
+- `scripts/verify-week2.sh` xác nhận task còn sau `docker compose down && up`.
+- Log và ảnh trước–sau deploy nằm trong `docs/evidence/`.
 
 `scripts/deploy.sh` thuộc quy trình thủ công tuần 1; pipeline tuần 2 dùng `.github/workflows/week2.yml`.
 
