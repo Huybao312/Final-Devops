@@ -1,0 +1,19 @@
+# Week 2 visible change demo
+Before commit: 31b005479fe6eb5b073180de0394daca688f547d
+    <p class="subtitle">Organize what matters, one task at a time.</p>
+After commit: 0b8c43be3a5d99cafbbc3f7d7c4b95da09de3006
+    <p class="subtitle">Plan your day, one task at a time.</p>
+Workflow:
+https://github.com/Huybao312/Final-Devops/actions/runs/40632748568
+Head SHA: 0b8c43be3a5d99cafbbc3f7d7c4b95da09de3006
+Conclusion: success
+build-test: success
+deploy: success
+Mac client after deploy:
+{"status":"healthy"}
+
+{"version":"0b8c43be3a5d99cafbbc3f7d7c4b95da09de3006"}
+
+Database rows after deploy:
+5
+Screenshots: week2-ui-before.png, week2-version-before.png, week2-ui-after.png, week2-version-after.png

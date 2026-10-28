@@ -75,5 +75,8 @@ ls -lah docs/evidence/
 - [`week2-runtime.txt`](week2-runtime.txt): container, health, role và port trước deploy tự động.
 - [`week2-deploy.txt`](week2-deploy.txt): workflow `build-test → deploy` xanh, `/version` đổi từ `local` sang SHA commit mới, DB vẫn còn dữ liệu.
 - [`week2-app-after.png`](week2-app-after.png): giao diện từ Mac sau deploy.
+- [`week2-demo.txt`](week2-demo.txt): commit thay đổi phụ đề, workflow xanh, SHA mới, health và số bản ghi.
+- [`week2-ui-before.png`](week2-ui-before.png) / [`week2-ui-after.png`](week2-ui-after.png): ảnh trang trước và sau cập nhật tự động.
+- [`week2-version-before.png`](week2-version-before.png) / [`week2-version-after.png`](week2-version-after.png): ảnh `/version` trước và sau, đối chiếu SHA.
 
 Log và ảnh tuần 2 là kết quả chạy thật trên VM hoặc máy Mac, không chứa password/token. Video demo có lời giải thích của nhóm vẫn cần nhóm tự ghi.
