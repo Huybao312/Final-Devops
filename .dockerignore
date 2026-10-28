@@ -1,0 +1,15 @@
+.git
+.github
+.env
+*.env
+venv
+__pycache__
+.pytest_cache
+todo.db
+*.dump
+*.sql.gz
+docs
+scripts
+db
+tests
+README.md
