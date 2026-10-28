@@ -525,16 +525,19 @@ sudo systemctl restart flaskapp
 sudo -u postgres psql -d todo
 ```
 
-## 15. Kế hoạch Week 2
+## 15. Tuần 2 — Containerization & CI/CD
 
-- Viết `Dockerfile` multi-stage/ slim, chạy Gunicorn.
-- `docker-compose.yml`: service `app`, service `db` (PostgreSQL), network riêng, named volume.
-- Chứng minh `docker compose down && up` không mất dữ liệu.
-- GitHub Actions: checkout → build → test → build image → deploy.
-- Thêm `pytest` cho CRUD và health check; test fail phải làm pipeline fail.
-- Dùng GitHub Secrets; không commit password.
-- Vì runner GitHub-hosted không SSH được vào VM local, dùng **self-hosted runner** trên Ubuntu VM hoặc cơ chế pull an toàn.
-- `scripts/deploy.sh` hiện tại chỉ là manual deploy, sẽ được thay bằng pipeline.
+Đã thêm `Dockerfile`, `compose.yaml`, test tích hợp PostgreSQL và GitHub Actions. Xem [hướng dẫn triển khai tuần 2](docs/week2.md) để cài runner ARM64 trên VM, chuyển dữ liệu tuần 1, bật pipeline và thu minh chứng thật. Trạng thái workflow/deploy chỉ được xác nhận sau khi chạy trên VM.
+
+### Cần kiểm chứng trên VM
+
+- Chuyển dữ liệu từ PostgreSQL tuần 1 sang volume `todo-task-manager_postgres_data`, đối chiếu số bản ghi.
+- Đăng ký self-hosted runner Linux ARM64 trên VM và thêm GitHub Secrets theo `docs/week2.md`.
+- Chạy workflow `build-test → deploy` xanh; `/version` phải trả đúng SHA của commit vừa push.
+- Chạy `scripts/verify-week2.sh` để chứng minh dữ liệu còn sau `docker compose down && up`.
+- Lưu workflow logs và ảnh/video trước–sau deploy vào `docs/evidence/`.
+
+`scripts/deploy.sh` thuộc quy trình thủ công tuần 1; pipeline tuần 2 dùng `.github/workflows/week2.yml`.
 
 ## 16. Tài liệu tham khảo
 
