@@ -1,0 +1,18 @@
+groups:
+  - name: todo-reliability
+    rules:
+      - alert: TodoAppUnavailable
+        expr: probe_success{job="app-health"} == 0
+        for: 30s
+        labels:
+          severity: critical
+        annotations:
+          summary: 'Nginx/app/database health check failed'
+          description: 'Check app logs, Nginx and DB; see docs/week3/PLAYBOOK.md.'
+      - alert: MonitoringTargetDown
+        expr: up == 0
+        for: 30s
+        labels:
+          severity: warning
+        annotations:
+          summary: 'Monitoring target is unreachable'

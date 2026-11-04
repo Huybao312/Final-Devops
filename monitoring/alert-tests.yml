@@ -1,0 +1,21 @@
+rule_files: [alerts.yml]
+evaluation_interval: 10s
+tests:
+  - interval: 10s
+    input_series:
+      - series: 'probe_success{job="app-health",instance="demo"}'
+        values: '1 0 0 0 0 1 1'
+    alert_rule_test:
+      - eval_time: 40s
+        alertname: TodoAppUnavailable
+        exp_alerts:
+          - exp_labels:
+              job: app-health
+              instance: demo
+              severity: critical
+            exp_annotations:
+              summary: 'Nginx/app/database health check failed'
+              description: 'Check app logs, Nginx and DB; see docs/week3/PLAYBOOK.md.'
+      - eval_time: 60s
+        alertname: TodoAppUnavailable
+        exp_alerts: []

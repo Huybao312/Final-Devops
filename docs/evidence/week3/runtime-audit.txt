@@ -1,0 +1,28 @@
+Wed Nov  4 04:09:30 UTC 2026
+State  Recv-Q Send-Q Local Address:Port Peer Address:Port
+LISTEN 0      4096         0.0.0.0:22        0.0.0.0:*   
+LISTEN 0      511          0.0.0.0:80        0.0.0.0:*   
+LISTEN 0      4096       127.0.0.1:3000      0.0.0.0:*   
+LISTEN 0      4096   127.0.0.53%lo:53        0.0.0.0:*   
+LISTEN 0      4096      127.0.0.54:53        0.0.0.0:*   
+LISTEN 0      200        127.0.0.1:5432      0.0.0.0:*   
+LISTEN 0      4096       127.0.0.1:9115      0.0.0.0:*   
+LISTEN 0      4096       127.0.0.1:9100      0.0.0.0:*   
+LISTEN 0      4096       127.0.0.1:9090      0.0.0.0:*   
+LISTEN 0      4096            [::]:22           [::]:*   
+LISTEN 0      511             [::]:80           [::]:*   
+todo-monitoring-prometheus-1 Up 2 minutes 
+todo-monitoring-grafana-1 Up 2 minutes 
+todo-monitoring-node-exporter-1 Up 2 minutes 
+todo-monitoring-blackbox-1 Up 2 minutes 
+todo-task-manager-db-1 Up 4 minutes (healthy) 5432/tcp
+ count 
+-------
+     5
+(1 row)
+
+600 ubuntusever /home/ubuntusever/Final-Devops-week2/.env
+600 ubuntusever /home/ubuntusever/.config/todo-week3/monitoring.env
+700 ubuntusever /home/ubuntusever/todo-backups
+
+0 2 * * * /bin/bash /home/ubuntusever/Final-Devops-week3/scripts/week3/backup.sh >> /home/ubuntusever/todo-backups/scheduler.log 2>&1

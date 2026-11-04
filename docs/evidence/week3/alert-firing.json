@@ -1,0 +1,1 @@
+{"status":"success","data":{"alerts":[{"labels":{"alertname":"TodoAppUnavailable","instance":"http://127.0.0.1/health","job":"app-health","severity":"critical"},"annotations":{"description":"Check app logs, Nginx and DB; see docs/week3/PLAYBOOK.md.","summary":"Nginx/app/database health check failed"},"state":"firing","activeAt":"2026-11-04T04:09:18.204989316Z","value":"0e+00"}]}}

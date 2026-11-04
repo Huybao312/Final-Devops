@@ -547,3 +547,7 @@ sudo -u postgres psql -d todo
 - PostgreSQL roles/privileges: <https://www.postgresql.org/docs/current/user-manag.html>
 - Nginx reverse proxy: <https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/>
 - UTM: <https://docs.getutm.app/>
+
+## Week 3: Monitoring, Security & Reliability
+
+Setup, backup/restore policy and runtime acceptance: [Week 3 operations](docs/week3/README.md). Online speaking script: [Demo Week 3](docs/week3/DEMO_ONLINE.md).

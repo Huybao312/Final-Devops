@@ -13,4 +13,4 @@ COPY templates ./templates
 RUN useradd --system --uid 10001 --home-dir /app --no-create-home appuser
 USER appuser
 EXPOSE 5000
-CMD ["gunicorn", "--workers", "2", "--bind", "0.0.0.0:5000", "--no-control-socket", "--access-logfile", "-", "--error-logfile", "-", "app:app"]
+CMD ["gunicorn", "--workers", "2", "--bind", "0.0.0.0:5000", "--no-control-socket", "--access-logfile", "-", "--capture-output", "--error-logfile", "-", "app:app"]

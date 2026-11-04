@@ -1,0 +1,28 @@
+name: Week 3 configuration checks
+on:
+  push:
+    branches: [week3-operations, main]
+    paths: ['monitoring/**', 'scripts/week3/**', '.github/workflows/week3.yml', 'compose.yaml']
+  pull_request:
+    paths: ['monitoring/**', 'scripts/week3/**', '.github/workflows/week3.yml', 'compose.yaml']
+permissions:
+  contents: read
+jobs:
+  config:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Shell syntax and Compose configuration
+        env:
+          DB_ADMIN_PASSWORD: validation-only
+          DB_APP_PASSWORD: validation-only
+          GRAFANA_ADMIN_PASSWORD: validation-only
+        run: |
+          for script in scripts/week3/*.sh; do bash -n "$script"; done
+          docker compose -f compose.yaml config -q
+          docker compose -f monitoring/compose.yaml config -q
+          python3 -m json.tool monitoring/dashboards/todo.json >/dev/null
+      - name: Prometheus configuration and alert firing/resolution test
+        run: |
+          docker run --rm --entrypoint promtool -v "$PWD/monitoring:/etc/prometheus:ro" prom/prometheus:v3.5.0 check config /etc/prometheus/prometheus.yml
+          docker run --rm --entrypoint promtool -w /etc/prometheus -v "$PWD/monitoring:/etc/prometheus:ro" prom/prometheus:v3.5.0 test rules alert-tests.yml

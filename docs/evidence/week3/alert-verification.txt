@@ -1,0 +1,151 @@
+2026-11-04T04:07:37Z Stopping only the app; DB stays running. Recovery is registered in EXIT trap.
+ Container todo-task-manager-app-1 Stopping 
+ Container todo-task-manager-app-1 Stopped 
+2026-11-04T04:08:28Z PASS TodoAppUnavailable FIRING; capture Prometheus Alerts/dashboard now.
+db-1  | 2026-11-04T04:05:10.740578890Z 
+db-1  | 2026-11-04T04:05:10.740875479Z PostgreSQL Database directory appears to contain a database; Skipping initialization
+db-1  | 2026-11-04T04:05:10.740880145Z 
+db-1  | 2026-11-04T04:05:10.816177779Z 2026-11-04 04:05:10.816 UTC [1] LOG:  starting PostgreSQL 18.6 (Debian 18.6-1.pgdg13+2) on aarch64-unknown-linux-gnu, compiled by gcc (Debian 14.2.0-19) 14.2.0, 64-bit
+db-1  | 2026-11-04T04:05:10.816734080Z 2026-11-04 04:05:10.816 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+db-1  | 2026-11-04T04:05:10.816741538Z 2026-11-04 04:05:10.816 UTC [1] LOG:  listening on IPv6 address "::", port 5432
+db-1  | 2026-11-04T04:05:10.819477334Z 2026-11-04 04:05:10.819 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+db-1  | 2026-11-04T04:05:10.823906158Z 2026-11-04 04:05:10.823 UTC [32] LOG:  database system was interrupted; last known up at 2026-10-28 06:11:40 UTC
+db-1  | 2026-11-04T04:05:10.960602484Z 2026-11-04 04:05:10.960 UTC [32] LOG:  database system was not properly shut down; automatic recovery in progress
+db-1  | 2026-11-04T04:05:10.964237920Z 2026-11-04 04:05:10.964 UTC [32] LOG:  redo starts at 0/1C2E418
+db-1  | 2026-11-04T04:05:10.964253879Z 2026-11-04 04:05:10.964 UTC [32] LOG:  invalid record length at 0/1C2E520: expected at least 24, got 0
+db-1  | 2026-11-04T04:05:10.964255462Z 2026-11-04 04:05:10.964 UTC [32] LOG:  redo done at 0/1C2E4E8 system usage: CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+db-1  | 2026-11-04T04:05:10.969656177Z 2026-11-04 04:05:10.969 UTC [30] LOG:  checkpoint starting: end-of-recovery immediate wait
+db-1  | 2026-11-04T04:05:10.976887715Z 2026-11-04 04:05:10.976 UTC [30] LOG:  checkpoint complete: wrote 0 buffers (0.0%), wrote 3 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=0.002 s, sync=0.001 s, total=0.009 s; sync files=2, longest=0.001 s, average=0.001 s; distance=0 kB, estimate=0 kB; lsn=0/1C2E520, redo lsn=0/1C2E520
+db-1  | 2026-11-04T04:05:10.980053060Z 2026-11-04 04:05:10.979 UTC [1] LOG:  database system is ready to accept connections
+app-1  | 2026-11-04T04:05:11.099848062Z [2026-11-04 04:05:11 +0000] [1] [INFO] Starting gunicorn 26.2.0
+app-1  | 2026-11-04T04:05:11.100301861Z [2026-11-04 04:05:11 +0000] [1] [INFO] Listening at: http://0.0.0.0:5000 (1)
+app-1  | 2026-11-04T04:05:11.100307236Z [2026-11-04 04:05:11 +0000] [1] [INFO] Using worker: sync
+app-1  | 2026-11-04T04:05:11.101768302Z [2026-11-04 04:05:11 +0000] [6] [INFO] Booting worker with pid: 6
+app-1  | 2026-11-04T04:05:11.172280272Z [2026-11-04 04:05:11 +0000] [7] [INFO] Booting worker with pid: 7
+app-1  | 2026-11-04T04:05:15.934609202Z 127.0.0.1 - - [04/Nov/2026:04:05:15 +0000] "GET /health HTTP/1.1" 200 21 "-" "Python-urllib/3.12"
+app-1  | 2026-11-04T04:05:21.121794522Z 127.0.0.1 - - [04/Nov/2026:04:05:21 +0000] "GET /health HTTP/1.1" 200 21 "-" "Python-urllib/3.12"
+app-1  | 2026-11-04T04:05:26.329899288Z 127.0.0.1 - - [04/Nov/2026:04:05:26 +0000] "GET /health HTTP/1.1" 200 21 "-" "Python-urllib/3.12"
+app-1  | 2026-11-04T04:05:31.543761805Z 127.0.0.1 - - [04/Nov/2026:04:05:31 +0000] "GET /health HTTP/1.1" 200 21 "-" "Python-urllib/3.12"
+app-1  | 2026-11-04T04:05:36.752607071Z 127.0.0.1 - - [04/Nov/2026:04:05:36 +0000] "GET /health HTTP/1.1" 200 21 "-" "Python-urllib/3.12"
+app-1  | 2026-11-04T04:05:41.968582957Z 127.0.0.1 - - [04/Nov/2026:04:05:41 +0000] "GET /health HTTP/1.1" 200 21 "-" "Python-urllib/3.12"
+app-1  | 2026-11-04T04:05:47.187600019Z 127.0.0.1 - - [04/Nov/2026:04:05:47 +0000] "GET /health HTTP/1.1" 200 21 "-" "Python-urllib/3.12"
+app-1  | 2026-11-04T04:05:52.462491222Z 127.0.0.1 - - [04/Nov/2026:04:05:52 +0000] "GET /health HTTP/1.1" 200 21 "-" "Python-urllib/3.12"
+app-1  | 2026-11-04T04:05:57.774236834Z 127.0.0.1 - - [04/Nov/2026:04:05:57 +0000] "GET /health HTTP/1.1" 200 21 "-" "Python-urllib/3.12"
+app-1  | 2026-11-04T04:06:03.019233496Z 127.0.0.1 - - [04/Nov/2026:04:06:03 +0000] "GET /health HTTP/1.1" 200 21 "-" "Python-urllib/3.12"
+app-1  | 2026-11-04T04:06:08.250622556Z 127.0.0.1 - - [04/Nov/2026:04:06:08 +0000] "GET /health HTTP/1.1" 200 21 "-" "Python-urllib/3.12"
+app-1  | 2026-11-04T04:06:13.482810629Z 127.0.0.1 - - [04/Nov/2026:04:06:13 +0000] "GET /health HTTP/1.1" 200 21 "-" "Python-urllib/3.12"
+app-1  | 2026-11-04T04:06:18.732249074Z 127.0.0.1 - - [04/Nov/2026:04:06:18 +0000] "GET /health HTTP/1.1" 200 21 "-" "Python-urllib/3.12"
+app-1  | 2026-11-04T04:06:23.962465249Z 127.0.0.1 - - [04/Nov/2026:04:06:23 +0000] "GET /health HTTP/1.1" 200 21 "-" "Python-urllib/3.12"
+app-1  | 2026-11-04T04:06:29.198486665Z 127.0.0.1 - - [04/Nov/2026:04:06:29 +0000] "GET /health HTTP/1.1" 200 21 "-" "Python-urllib/3.12"
+app-1  | 2026-11-04T04:06:34.425939414Z 127.0.0.1 - - [04/Nov/2026:04:06:34 +0000] "GET /health HTTP/1.1" 200 21 "-" "Python-urllib/3.12"
+app-1  | 2026-11-04T04:06:40.162070735Z 127.0.0.1 - - [04/Nov/2026:04:06:40 +0000] "GET /health HTTP/1.1" 200 21 "-" "Python-urllib/3.12"
+app-1  | 2026-11-04T04:06:45.425967642Z 127.0.0.1 - - [04/Nov/2026:04:06:45 +0000] "GET /health HTTP/1.1" 200 21 "-" "Python-urllib/3.12"
+app-1  | 2026-11-04T04:06:50.655997604Z 127.0.0.1 - - [04/Nov/2026:04:06:50 +0000] "GET /health HTTP/1.1" 200 21 "-" "Python-urllib/3.12"
+app-1  | 2026-11-04T04:06:55.949698234Z 127.0.0.1 - - [04/Nov/2026:04:06:55 +0000] "GET /health HTTP/1.1" 200 21 "-" "Python-urllib/3.12"
+app-1  | 2026-11-04T04:07:01.144217112Z 127.0.0.1 - - [04/Nov/2026:04:07:01 +0000] "GET /health HTTP/1.1" 200 21 "-" "Python-urllib/3.12"
+app-1  | 2026-11-04T04:07:06.352263700Z 127.0.0.1 - - [04/Nov/2026:04:07:06 +0000] "GET /health HTTP/1.1" 200 21 "-" "Python-urllib/3.12"
+app-1  | 2026-11-04T04:07:11.578190773Z 127.0.0.1 - - [04/Nov/2026:04:07:11 +0000] "GET /health HTTP/1.1" 200 21 "-" "Python-urllib/3.12"
+app-1  | 2026-11-04T04:07:16.818730968Z 127.0.0.1 - - [04/Nov/2026:04:07:16 +0000] "GET /health HTTP/1.1" 200 21 "-" "Python-urllib/3.12"
+app-1  | 2026-11-04T04:07:22.094213561Z 127.0.0.1 - - [04/Nov/2026:04:07:22 +0000] "GET /health HTTP/1.1" 200 21 "-" "Python-urllib/3.12"
+app-1  | 2026-11-04T04:07:27.445384173Z 127.0.0.1 - - [04/Nov/2026:04:07:27 +0000] "GET /health HTTP/1.1" 200 21 "-" "Python-urllib/3.12"
+app-1  | 2026-11-04T04:07:32.736715695Z 127.0.0.1 - - [04/Nov/2026:04:07:32 +0000] "GET /health HTTP/1.1" 200 21 "-" "Python-urllib/3.12"
+app-1  | 2026-11-04T04:07:34.738003953Z 127.0.0.1 - - [04/Nov/2026:04:07:34 +0000] "GET /health HTTP/1.1" 200 21 "-" "Blackbox Exporter/0.27.0"
+app-1  | 2026-11-04T04:07:37.343119975Z 127.0.0.1 - - [04/Nov/2026:04:07:37 +0000] "GET /health HTTP/1.1" 200 21 "-" "curl/8.18.0"
+app-1  | 2026-11-04T04:07:37.444217362Z [2026-11-04 04:07:37 +0000] [1] [INFO] Handling signal: term
+app-1  | 2026-11-04T04:07:37.445222001Z [2026-11-04 04:07:37 +0000] [6] [INFO] Worker exiting (pid: 6)
+app-1  | 2026-11-04T04:07:37.446594364Z [2026-11-04 04:07:37 +0000] [7] [INFO] Worker exiting (pid: 7)
+app-1  | 2026-11-04T04:07:37.645683187Z [2026-11-04 04:07:37 +0000] [1] [INFO] Shutting down: Master
+ Container todo-task-manager-db-1 Waiting 
+ Container todo-task-manager-db-1 Healthy 
+ Container todo-task-manager-app-1 Starting 
+ Container todo-task-manager-app-1 Started 
+curl: (22) The requested URL returned error: 502
+2026-11-04T04:08:39Z PASS app healthy and TodoAppUnavailable cleared
+2026-11-04T04:09:09Z Stopping only the app; DB stays running. Recovery is registered in EXIT trap.
+ Container todo-task-manager-app-1 Stopping 
+ Container todo-task-manager-app-1 Stopped 
+2026-11-04T04:09:50Z PASS TodoAppUnavailable FIRING; capture Prometheus Alerts/dashboard now.
+2026-11-04T04:09:50Z Keeping alert active for 20 seconds for screenshot capture.
+db-1  | 2026-11-04T04:05:10.740578890Z 
+db-1  | 2026-11-04T04:05:10.740875479Z PostgreSQL Database directory appears to contain a database; Skipping initialization
+db-1  | 2026-11-04T04:05:10.740880145Z 
+db-1  | 2026-11-04T04:05:10.816177779Z 2026-11-04 04:05:10.816 UTC [1] LOG:  starting PostgreSQL 18.6 (Debian 18.6-1.pgdg13+2) on aarch64-unknown-linux-gnu, compiled by gcc (Debian 14.2.0-19) 14.2.0, 64-bit
+db-1  | 2026-11-04T04:05:10.816734080Z 2026-11-04 04:05:10.816 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+db-1  | 2026-11-04T04:05:10.816741538Z 2026-11-04 04:05:10.816 UTC [1] LOG:  listening on IPv6 address "::", port 5432
+db-1  | 2026-11-04T04:05:10.819477334Z 2026-11-04 04:05:10.819 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+db-1  | 2026-11-04T04:05:10.823906158Z 2026-11-04 04:05:10.823 UTC [32] LOG:  database system was interrupted; last known up at 2026-10-28 06:11:40 UTC
+db-1  | 2026-11-04T04:05:10.960602484Z 2026-11-04 04:05:10.960 UTC [32] LOG:  database system was not properly shut down; automatic recovery in progress
+db-1  | 2026-11-04T04:05:10.964237920Z 2026-11-04 04:05:10.964 UTC [32] LOG:  redo starts at 0/1C2E418
+db-1  | 2026-11-04T04:05:10.964253879Z 2026-11-04 04:05:10.964 UTC [32] LOG:  invalid record length at 0/1C2E520: expected at least 24, got 0
+db-1  | 2026-11-04T04:05:10.964255462Z 2026-11-04 04:05:10.964 UTC [32] LOG:  redo done at 0/1C2E4E8 system usage: CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+db-1  | 2026-11-04T04:05:10.969656177Z 2026-11-04 04:05:10.969 UTC [30] LOG:  checkpoint starting: end-of-recovery immediate wait
+db-1  | 2026-11-04T04:05:10.976887715Z 2026-11-04 04:05:10.976 UTC [30] LOG:  checkpoint complete: wrote 0 buffers (0.0%), wrote 3 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=0.002 s, sync=0.001 s, total=0.009 s; sync files=2, longest=0.001 s, average=0.001 s; distance=0 kB, estimate=0 kB; lsn=0/1C2E520, redo lsn=0/1C2E520
+db-1  | 2026-11-04T04:05:10.980053060Z 2026-11-04 04:05:10.979 UTC [1] LOG:  database system is ready to accept connections
+app-1  | 2026-11-04T04:05:11.099848062Z [2026-11-04 04:05:11 +0000] [1] [INFO] Starting gunicorn 26.2.0
+app-1  | 2026-11-04T04:05:11.100301861Z [2026-11-04 04:05:11 +0000] [1] [INFO] Listening at: http://0.0.0.0:5000 (1)
+app-1  | 2026-11-04T04:05:11.100307236Z [2026-11-04 04:05:11 +0000] [1] [INFO] Using worker: sync
+app-1  | 2026-11-04T04:05:11.101768302Z [2026-11-04 04:05:11 +0000] [6] [INFO] Booting worker with pid: 6
+app-1  | 2026-11-04T04:05:11.172280272Z [2026-11-04 04:05:11 +0000] [7] [INFO] Booting worker with pid: 7
+app-1  | 2026-11-04T04:05:15.934609202Z 127.0.0.1 - - [04/Nov/2026:04:05:15 +0000] "GET /health HTTP/1.1" 200 21 "-" "Python-urllib/3.12"
+app-1  | 2026-11-04T04:05:21.121794522Z 127.0.0.1 - - [04/Nov/2026:04:05:21 +0000] "GET /health HTTP/1.1" 200 21 "-" "Python-urllib/3.12"
+app-1  | 2026-11-04T04:05:26.329899288Z 127.0.0.1 - - [04/Nov/2026:04:05:26 +0000] "GET /health HTTP/1.1" 200 21 "-" "Python-urllib/3.12"
+app-1  | 2026-11-04T04:05:31.543761805Z 127.0.0.1 - - [04/Nov/2026:04:05:31 +0000] "GET /health HTTP/1.1" 200 21 "-" "Python-urllib/3.12"
+app-1  | 2026-11-04T04:05:36.752607071Z 127.0.0.1 - - [04/Nov/2026:04:05:36 +0000] "GET /health HTTP/1.1" 200 21 "-" "Python-urllib/3.12"
+app-1  | 2026-11-04T04:05:41.968582957Z 127.0.0.1 - - [04/Nov/2026:04:05:41 +0000] "GET /health HTTP/1.1" 200 21 "-" "Python-urllib/3.12"
+app-1  | 2026-11-04T04:05:47.187600019Z 127.0.0.1 - - [04/Nov/2026:04:05:47 +0000] "GET /health HTTP/1.1" 200 21 "-" "Python-urllib/3.12"
+app-1  | 2026-11-04T04:05:52.462491222Z 127.0.0.1 - - [04/Nov/2026:04:05:52 +0000] "GET /health HTTP/1.1" 200 21 "-" "Python-urllib/3.12"
+app-1  | 2026-11-04T04:05:57.774236834Z 127.0.0.1 - - [04/Nov/2026:04:05:57 +0000] "GET /health HTTP/1.1" 200 21 "-" "Python-urllib/3.12"
+app-1  | 2026-11-04T04:06:03.019233496Z 127.0.0.1 - - [04/Nov/2026:04:06:03 +0000] "GET /health HTTP/1.1" 200 21 "-" "Python-urllib/3.12"
+app-1  | 2026-11-04T04:06:08.250622556Z 127.0.0.1 - - [04/Nov/2026:04:06:08 +0000] "GET /health HTTP/1.1" 200 21 "-" "Python-urllib/3.12"
+app-1  | 2026-11-04T04:06:13.482810629Z 127.0.0.1 - - [04/Nov/2026:04:06:13 +0000] "GET /health HTTP/1.1" 200 21 "-" "Python-urllib/3.12"
+app-1  | 2026-11-04T04:06:18.732249074Z 127.0.0.1 - - [04/Nov/2026:04:06:18 +0000] "GET /health HTTP/1.1" 200 21 "-" "Python-urllib/3.12"
+app-1  | 2026-11-04T04:06:23.962465249Z 127.0.0.1 - - [04/Nov/2026:04:06:23 +0000] "GET /health HTTP/1.1" 200 21 "-" "Python-urllib/3.12"
+app-1  | 2026-11-04T04:06:29.198486665Z 127.0.0.1 - - [04/Nov/2026:04:06:29 +0000] "GET /health HTTP/1.1" 200 21 "-" "Python-urllib/3.12"
+app-1  | 2026-11-04T04:06:34.425939414Z 127.0.0.1 - - [04/Nov/2026:04:06:34 +0000] "GET /health HTTP/1.1" 200 21 "-" "Python-urllib/3.12"
+app-1  | 2026-11-04T04:06:40.162070735Z 127.0.0.1 - - [04/Nov/2026:04:06:40 +0000] "GET /health HTTP/1.1" 200 21 "-" "Python-urllib/3.12"
+app-1  | 2026-11-04T04:06:45.425967642Z 127.0.0.1 - - [04/Nov/2026:04:06:45 +0000] "GET /health HTTP/1.1" 200 21 "-" "Python-urllib/3.12"
+app-1  | 2026-11-04T04:06:50.655997604Z 127.0.0.1 - - [04/Nov/2026:04:06:50 +0000] "GET /health HTTP/1.1" 200 21 "-" "Python-urllib/3.12"
+app-1  | 2026-11-04T04:06:55.949698234Z 127.0.0.1 - - [04/Nov/2026:04:06:55 +0000] "GET /health HTTP/1.1" 200 21 "-" "Python-urllib/3.12"
+app-1  | 2026-11-04T04:07:01.144217112Z 127.0.0.1 - - [04/Nov/2026:04:07:01 +0000] "GET /health HTTP/1.1" 200 21 "-" "Python-urllib/3.12"
+app-1  | 2026-11-04T04:07:06.352263700Z 127.0.0.1 - - [04/Nov/2026:04:07:06 +0000] "GET /health HTTP/1.1" 200 21 "-" "Python-urllib/3.12"
+app-1  | 2026-11-04T04:07:11.578190773Z 127.0.0.1 - - [04/Nov/2026:04:07:11 +0000] "GET /health HTTP/1.1" 200 21 "-" "Python-urllib/3.12"
+app-1  | 2026-11-04T04:07:16.818730968Z 127.0.0.1 - - [04/Nov/2026:04:07:16 +0000] "GET /health HTTP/1.1" 200 21 "-" "Python-urllib/3.12"
+app-1  | 2026-11-04T04:07:22.094213561Z 127.0.0.1 - - [04/Nov/2026:04:07:22 +0000] "GET /health HTTP/1.1" 200 21 "-" "Python-urllib/3.12"
+app-1  | 2026-11-04T04:07:27.445384173Z 127.0.0.1 - - [04/Nov/2026:04:07:27 +0000] "GET /health HTTP/1.1" 200 21 "-" "Python-urllib/3.12"
+app-1  | 2026-11-04T04:07:32.736715695Z 127.0.0.1 - - [04/Nov/2026:04:07:32 +0000] "GET /health HTTP/1.1" 200 21 "-" "Python-urllib/3.12"
+app-1  | 2026-11-04T04:07:34.738003953Z 127.0.0.1 - - [04/Nov/2026:04:07:34 +0000] "GET /health HTTP/1.1" 200 21 "-" "Blackbox Exporter/0.27.0"
+app-1  | 2026-11-04T04:07:37.343119975Z 127.0.0.1 - - [04/Nov/2026:04:07:37 +0000] "GET /health HTTP/1.1" 200 21 "-" "curl/8.18.0"
+app-1  | 2026-11-04T04:07:37.444217362Z [2026-11-04 04:07:37 +0000] [1] [INFO] Handling signal: term
+app-1  | 2026-11-04T04:07:37.445222001Z [2026-11-04 04:07:37 +0000] [6] [INFO] Worker exiting (pid: 6)
+app-1  | 2026-11-04T04:07:37.446594364Z [2026-11-04 04:07:37 +0000] [7] [INFO] Worker exiting (pid: 7)
+app-1  | 2026-11-04T04:07:37.645683187Z [2026-11-04 04:07:37 +0000] [1] [INFO] Shutting down: Master
+app-1  | 2026-11-04T04:08:29.346190154Z [2026-11-04 04:08:29 +0000] [1] [INFO] Starting gunicorn 26.2.0
+app-1  | 2026-11-04T04:08:29.346254191Z [2026-11-04 04:08:29 +0000] [1] [INFO] Listening at: http://0.0.0.0:5000 (1)
+app-1  | 2026-11-04T04:08:29.346261274Z [2026-11-04 04:08:29 +0000] [1] [INFO] Using worker: sync
+app-1  | 2026-11-04T04:08:29.347928450Z [2026-11-04 04:08:29 +0000] [7] [INFO] Booting worker with pid: 7
+app-1  | 2026-11-04T04:08:29.359053973Z [2026-11-04 04:08:29 +0000] [8] [INFO] Booting worker with pid: 8
+app-1  | 2026-11-04T04:08:34.118863712Z 127.0.0.1 - - [04/Nov/2026:04:08:34 +0000] "GET /health HTTP/1.1" 200 21 "-" "curl/8.18.0"
+app-1  | 2026-11-04T04:08:34.291978802Z 127.0.0.1 - - [04/Nov/2026:04:08:34 +0000] "GET /health HTTP/1.1" 200 21 "-" "Python-urllib/3.12"
+app-1  | 2026-11-04T04:08:34.714772963Z 127.0.0.1 - - [04/Nov/2026:04:08:34 +0000] "GET /health HTTP/1.1" 200 21 "-" "Blackbox Exporter/0.27.0"
+app-1  | 2026-11-04T04:08:39.183813386Z 127.0.0.1 - - [04/Nov/2026:04:08:39 +0000] "GET /health HTTP/1.1" 200 21 "-" "curl/8.18.0"
+app-1  | 2026-11-04T04:08:39.499139371Z 127.0.0.1 - - [04/Nov/2026:04:08:39 +0000] "GET /health HTTP/1.1" 200 21 "-" "Python-urllib/3.12"
+app-1  | 2026-11-04T04:08:44.717457803Z 127.0.0.1 - - [04/Nov/2026:04:08:44 +0000] "GET /health HTTP/1.1" 200 21 "-" "Blackbox Exporter/0.27.0"
+app-1  | 2026-11-04T04:08:44.778982815Z 127.0.0.1 - - [04/Nov/2026:04:08:44 +0000] "GET /health HTTP/1.1" 200 21 "-" "Python-urllib/3.12"
+app-1  | 2026-11-04T04:08:50.020318475Z 127.0.0.1 - - [04/Nov/2026:04:08:50 +0000] "GET /health HTTP/1.1" 200 21 "-" "Python-urllib/3.12"
+app-1  | 2026-11-04T04:08:53.362267803Z 127.0.0.1 - - [04/Nov/2026:04:08:53 +0000] "GET /health HTTP/1.1" 200 21 "-" "curl/8.7.1"
+app-1  | 2026-11-04T04:08:54.715578864Z 127.0.0.1 - - [04/Nov/2026:04:08:54 +0000] "GET /health HTTP/1.1" 200 21 "-" "Blackbox Exporter/0.27.0"
+app-1  | 2026-11-04T04:08:55.318711244Z 127.0.0.1 - - [04/Nov/2026:04:08:55 +0000] "GET /health HTTP/1.1" 200 21 "-" "Python-urllib/3.12"
+app-1  | 2026-11-04T04:09:00.554993247Z 127.0.0.1 - - [04/Nov/2026:04:09:00 +0000] "GET /health HTTP/1.1" 200 21 "-" "Python-urllib/3.12"
+app-1  | 2026-11-04T04:09:04.716430567Z 127.0.0.1 - - [04/Nov/2026:04:09:04 +0000] "GET /health HTTP/1.1" 200 21 "-" "Blackbox Exporter/0.27.0"
+app-1  | 2026-11-04T04:09:05.781954691Z 127.0.0.1 - - [04/Nov/2026:04:09:05 +0000] "GET /health HTTP/1.1" 200 21 "-" "Python-urllib/3.12"
+app-1  | 2026-11-04T04:09:09.982395007Z 127.0.0.1 - - [04/Nov/2026:04:09:09 +0000] "GET /health HTTP/1.1" 200 21 "-" "curl/8.18.0"
+app-1  | 2026-11-04T04:09:10.104006314Z [2026-11-04 04:09:10 +0000] [1] [INFO] Handling signal: term
+app-1  | 2026-11-04T04:09:10.107359085Z [2026-11-04 04:09:10 +0000] [8] [INFO] Worker exiting (pid: 8)
+app-1  | 2026-11-04T04:09:10.108784636Z [2026-11-04 04:09:10 +0000] [7] [INFO] Worker exiting (pid: 7)
+app-1  | 2026-11-04T04:09:10.307974514Z [2026-11-04 04:09:10 +0000] [1] [INFO] Shutting down: Master
+ Container todo-task-manager-db-1 Waiting 
+ Container todo-task-manager-db-1 Healthy 
+ Container todo-task-manager-app-1 Starting 
+ Container todo-task-manager-app-1 Started 
+curl: (22) The requested URL returned error: 502
+2026-11-04T04:10:21Z PASS app healthy and TodoAppUnavailable cleared
