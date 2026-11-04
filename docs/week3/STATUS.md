@@ -22,3 +22,11 @@
 All checkpoint functionality has runtime evidence. Scheduled backup's first automatic execution remains a future operational check; manual backup/restore already passed. Video is not fabricated: actual screenshots and logs are provided as the allowed alternative.
 
 Evidence: docs/evidence/week3/. Screenshots and text/JSON are actual results, not illustrative output. No database dumps or secrets are committed.
+
+## Follow-up audit fixes — 2026-11-04
+
+- Portable basename sidecars; restore verifies the selected archive's bytes, including for legacy absolute-path sidecars. Live relocated/renamed restore passed; corrupted copy was rejected before DB creation, while its original still existed. Regression is part of CI.
+- All four monitoring containers now have verified json-file rotation (10m × 3), matching app/DB.
+- Canonical Mac ports: 13000 Grafana / 19090 Prometheus / 18080 app. Repo guide and Downloads demo use the same mapping. VM-only service ports remain unchanged.
+- Backup cron first scheduled run and copying encrypted archives to a separate device remain operational follow-up items, not claimed as tested.
+- Evidence: hardening-verification.txt.

@@ -1,0 +1,14 @@
+Live VM audit after checksum/logging fixes, 2026-11-04 UTC
+/todo-monitoring-grafana-1 {"Type":"json-file","Config":{"max-file":"3","max-size":"10m"}}
+/todo-monitoring-prometheus-1 {"Type":"json-file","Config":{"max-file":"3","max-size":"10m"}}
+/todo-monitoring-node-exporter-1 {"Type":"json-file","Config":{"max-file":"3","max-size":"10m"}}
+/todo-monitoring-blackbox-1 {"Type":"json-file","Config":{"max-file":"3","max-size":"10m"}}
+{"status":"healthy"}
+{"status":"success","data":{"resultType":"vector","result":[{"metric":{"__name__":"up","instance":"http://127.0.0.1/health","job":"app-health"},"value":[1793766425.347,"1"]},{"metric":{"__name__":"up","instance":"127.0.0.1:9090","job":"prometheus"},"value":[1793766425.347,"1"]},{"metric":{"__name__":"up","instance":"127.0.0.1:9100","job":"node"},"value":[1793766425.347,"1"]}]}}5
+
+Restore relocation drill (actual run at 04:26:39 UTC):
+PASS production backup with basename sidecar created.
+PASS copied archive and sidecar to a temporary directory, renamed to renamed.dump; actual restore succeeded into week3_restore_relocated_1793766399.
+PASS replaced copy with corrupt bytes and legacy sidecar pointing to still-existing original: restore refused with checksum mismatch.
+PASS query confirmed zero databases named week3_restore_must_not_exist; rejection happens before createdb.
+Temporary copies removed; production remains five task records.
