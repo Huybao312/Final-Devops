@@ -1,0 +1,19 @@
+2026-11-04T04:06:54Z Take a production snapshot; all destructive demonstration operations use an isolated database.
+2026-11-04T04:06:55Z BACKUP OK database=todo archive=/home/ubuntusever/todo-backups/todo_20261104T040654Z_3206.dump
+/home/ubuntusever/todo-backups/todo_20261104T040654Z_3206.dump: OK
+2026-11-04T04:06:55Z RESTORE OK database=week3_restore_trial_20261104040654_3190 archive=/home/ubuntusever/todo-backups/todo_20261104T040654Z_3206.dump
+INSERT 0 1
+2026-11-04T04:06:55Z BACKUP OK database=week3_restore_trial_20261104040654_3190 archive=/home/ubuntusever/todo-backups/week3_restore_trial_20261104040654_3190_20261104T040655Z_3420.dump
+DELETE 1
+/home/ubuntusever/todo-backups/week3_restore_trial_20261104040654_3190_20261104T040655Z_3420.dump: OK
+2026-11-04T04:06:56Z RESTORE OK database=week3_restore_result_20261104040654_3190 archive=/home/ubuntusever/todo-backups/week3_restore_trial_20261104040654_3190_20261104T040655Z_3420.dump
+Before deletion: 6|8cc09cee92455447381358e714d084ac
+After deletion: 5|15444e76821b649fdf97e602b7ac0ab0
+After restore: 6|8cc09cee92455447381358e714d084ac
+ id |                  title                  
+----+-----------------------------------------
+ 10 | week3-restore-proof-20261104040654_3190
+(1 row)
+
+2026-11-04T04:06:56Z PASS: restored row count and full task checksum match; production was not modified. Verification DBs: week3_restore_trial_20261104040654_3190 week3_restore_result_20261104040654_3190
+2026-11-04T04:06:56Z Retain databases for evidence; remove them later using dropdb only after checking their names.

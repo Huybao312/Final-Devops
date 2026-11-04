@@ -1,0 +1,1 @@
+{"status":"success","data":{"resultType":"vector","result":[{"metric":{"__name__":"probe_success","instance":"http://127.0.0.1/health","job":"app-health"},"value":[1793765432.858,"1"]}]}}
