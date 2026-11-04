@@ -4,15 +4,15 @@ Record PASS/FAIL and UTC date on the actual VM; config review alone is not proof
 
 | Check | Expected | Runtime result |
 |---|---|---|
-| SSH 22 | Needed for administration; key access | Pending |
-| Nginx 80 | Public app entry on VM LAN | Pending |
-| app 5000 | 127.0.0.1 only | Pending |
-| PostgreSQL 5432 | No host publish; internal backend network | Pending |
-| Grafana 3000 | 127.0.0.1; SSH tunnel + login | Pending |
-| Prometheus 9090, exporters 9100/9115 | 127.0.0.1 only | Pending |
-| UFW | deny incoming; allow SSH/HTTP only | Pending |
-| DB role todo_app | DML only; no superuser/DDL/role creation | Pending |
-| Secrets | outside Git; files 600; owner only | Pending |
+| SSH 22 | Needed for administration; key access | PASS 2026-11-04 |
+| Nginx 80 | Public app entry on VM LAN | PASS 2026-11-04 |
+| app 5000 | 127.0.0.1 only | PASS 2026-11-04 |
+| PostgreSQL 5432 | No host publish; internal backend network | PASS 2026-11-04 |
+| Grafana 3000 | 127.0.0.1; SSH tunnel + login | PASS 2026-11-04 |
+| Prometheus 9090, exporters 9100/9115 | 127.0.0.1 only | PASS 2026-11-04 |
+| UFW | deny incoming; allow SSH/HTTP only | Enabled; exact rules pending sudo audit |
+| DB role todo_app | DML only; no superuser/DDL/role creation | PASS 2026-11-04 |
+| Secrets | outside Git; files 600; owner only | PASS 2026-11-04 |
 | Docker logs | rotated; no passwords printed | Pending |
 
 Run `bash scripts/week3/security-audit.sh`. Existing `sudo bash scripts/setup-firewall.sh` enables deny-incoming plus SSH/HTTP. Inspect existing UFW rules first: the script does not remove earlier allow rules. Remove unnecessary allow rules explicitly after review. Keep an SSH connection and UTM console open while changing firewall. Docker port publishing can bypass UFW; loopback bindings and no DB publish are necessary independent controls.
