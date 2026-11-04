@@ -1,0 +1,8 @@
+22: reachable from Mac
+80: reachable from Mac
+5000: not reachable from Mac
+5432: not reachable from Mac
+3000: not reachable from Mac
+9090: not reachable from Mac
+9100: not reachable from Mac
+9115: not reachable from Mac

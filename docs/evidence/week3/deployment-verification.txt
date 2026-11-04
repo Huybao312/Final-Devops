@@ -1,0 +1,10 @@
+Wed Nov  4 04:14:23 UTC 2026
+{"status":"healthy"}
+{"version":"1262dd141a4aeea7ff2ae5bf1226963e37948b07"}
+/todo-task-manager-app-1 {"Type":"json-file","Config":{"max-file":"3","max-size":"10m"}}
+/todo-task-manager-db-1 {"Type":"json-file","Config":{"max-file":"3","max-size":"10m"}}
+ count 
+-------
+     5
+(1 row)
+

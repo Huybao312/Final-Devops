@@ -10,10 +10,10 @@ Record PASS/FAIL and UTC date on the actual VM; config review alone is not proof
 | PostgreSQL 5432 | No host publish; internal backend network | PASS 2026-11-04 |
 | Grafana 3000 | 127.0.0.1; SSH tunnel + login | PASS 2026-11-04 |
 | Prometheus 9090, exporters 9100/9115 | 127.0.0.1 only | PASS 2026-11-04 |
-| UFW | deny incoming; allow SSH/HTTP only | Enabled; exact rules pending sudo audit |
+| UFW | deny incoming; allow SSH/HTTP only | PASS — owner console audit, 22/80 only |
 | DB role todo_app | DML only; no superuser/DDL/role creation | PASS 2026-11-04 |
 | Secrets | outside Git; files 600; owner only | PASS 2026-11-04 |
-| Docker logs | rotated; no passwords printed | Pending |
+| Docker logs | rotated; no passwords printed | PASS — inspect 10m × 3, reviewed incident logs |
 
 Run `bash scripts/week3/security-audit.sh`. Existing `sudo bash scripts/setup-firewall.sh` enables deny-incoming plus SSH/HTTP. Inspect existing UFW rules first: the script does not remove earlier allow rules. Remove unnecessary allow rules explicitly after review. Keep an SSH connection and UTM console open while changing firewall. Docker port publishing can bypass UFW; loopback bindings and no DB publish are necessary independent controls.
 

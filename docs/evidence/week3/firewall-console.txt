@@ -1,0 +1,14 @@
+Source: VM console output supplied by owner on 2026-11-04, after sudo bash scripts/setup-firewall.sh.
+Firewall is active and enabled on system startup
+Status: active
+Logging: on (low)
+Default: deny (incoming), allow (outgoing), deny (routed)
+New profiles: skip
+22/tcp ALLOW IN Anywhere # SSH access
+80/tcp ALLOW IN Anywhere # HTTP via Nginx
+22/tcp (OpenSSH) ALLOW IN Anywhere
+22/tcp (v6) ALLOW IN Anywhere (v6) # SSH access
+80/tcp (v6) ALLOW IN Anywhere (v6) # HTTP via Nginx
+22/tcp (OpenSSH (v6)) ALLOW IN Anywhere (v6)
+
+Owner's subsequent audit invocation had a filename typo (.s instead of .sh). Firewall configuration itself succeeded. Agent independently checked port bindings, external reachability, DB role grants and secret-file permissions over SSH.

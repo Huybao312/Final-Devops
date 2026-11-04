@@ -11,9 +11,14 @@
 - Daily backup installed at 02:00 UTC in VM user's crontab; existing entries preserved. Scheduled execution has not yet occurred; manual backup and restore passed.
 - GitHub configuration/alert-rule tests and real PostgreSQL app integration tests passed.
 
-## Pending
+## Final security and deployment verification
 
-- UFW status/enable requires interactive sudo on VM console; user was given the command. No firewall PASS is claimed before its output is reviewed.
-- Log rotation settings are in the deployment configuration; verify after main deployment recreates containers.
+- Owner ran the sudo firewall setup on VM console: UFW active, incoming deny, only 22/80 allowed for IPv4/IPv6. Output recorded in firewall-console.txt with its source identified.
+- External port check from Mac: 22/80 reachable; 5000/5432/3000/9090/9100/9115 unreachable.
+- Week 3 merged in PR #4; main pipeline deployed 1262dd141a4aeea7ff2ae5bf1226963e37948b07. Health healthy and production count still 5.
+- Both app/DB inspect confirm json-file logging with max-size=10m and max-file=3.
+- Initial deployment pipeline: https://github.com/Huybao312/Final-Devops/actions/runs/41771790899
+
+All checkpoint functionality has runtime evidence. Scheduled backup's first automatic execution remains a future operational check; manual backup/restore already passed. Video is not fabricated: actual screenshots and logs are provided as the allowed alternative.
 
 Evidence: docs/evidence/week3/. Screenshots and text/JSON are actual results, not illustrative output. No database dumps or secrets are committed.

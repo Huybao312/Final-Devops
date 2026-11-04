@@ -8,7 +8,7 @@ On the VM, use a stable checkout separate from the runner workspace:
 
 ```bash
 cd ~
-git clone --branch week3-operations https://github.com/Huybao312/Final-Devops.git Final-Devops-week3
+git clone --branch main https://github.com/Huybao312/Final-Devops.git Final-Devops-week3
 cd ~/Final-Devops-week3
 bash scripts/week3/start-monitoring.sh
 bash scripts/week3/backup.sh
@@ -16,12 +16,12 @@ bash scripts/week3/verify-restore.sh
 bash scripts/week3/security-audit.sh
 ```
 
-The clone command requires the branch to have been pushed. If installing from local files, copy this checkout to `~/Final-Devops-week3` instead. No script changes the production DB schema or clears its volume. Monitoring may need approximately 1–2 minutes of samples before CPU rate graphs appear. Four monitoring containers require additional VM memory; inspect `free -h`/`docker stats --no-stream`.
+If installing from local files, copy this checkout to `~/Final-Devops-week3` instead. No script changes the production DB schema or clears its volume. Monitoring may need approximately 1–2 minutes of samples before CPU rate graphs appear. Four monitoring containers require additional VM memory; inspect `free -h`/`docker stats --no-stream`.
 
 From Mac, open a tunnel, replacing VM address if changed:
 
 ```bash
-ssh -N -L 3000:127.0.0.1:3000 -L 9090:127.0.0.1:9090 -L 8080:127.0.0.1:80 ubuntusever@192.168.64.4
+ssh -N -L 3000:127.0.0.1:3000 -L 9090:127.0.0.1:9090 -L 8080:127.0.0.1:80 ubuntusever@VM_IP
 ```
 
 Grafana: http://localhost:3000 (admin); dashboard UID `todo-week3`. Prometheus alerts: http://localhost:9090/alerts. App: http://localhost:8080. Read Grafana's generated password privately from `~/.config/todo-week3/monitoring.env` before screen sharing. It is stored outside Git with mode 600. Grafana initial password is only applied when its volume is first initialized.

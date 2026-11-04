@@ -10,4 +10,4 @@ Recorded on Ubuntu VM on 2026-11-04 UTC.
 - runtime-audit.txt: ports, running services, production row count, secret file modes and installed backup schedule.
 - cpu-metrics.json / memory-metrics.json: raw Prometheus measurements.
 
-Firewall is not marked passed until interactive sudo audit is received. Archives remain outside repo on VM.
+Firewall owner-console output, external port checks and final deployment/log-rotation verification are included. Archives remain outside repo on VM.
