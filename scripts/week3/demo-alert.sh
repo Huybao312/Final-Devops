@@ -12,6 +12,8 @@ for attempt in {1..12}; do
   if curl -fsS http://127.0.0.1:9090/api/v1/alerts | python3 -c 'import json,sys; alerts=json.load(sys.stdin)["data"]["alerts"]; sys.exit(0 if any(a["labels"].get("alertname")=="TodoAppUnavailable" and a["state"]=="firing" for a in alerts) else 1)'; then
     firing=1
     log 'PASS TodoAppUnavailable FIRING; capture Prometheus Alerts/dashboard now.'
+    log 'Keeping alert active for 20 seconds for screenshot capture.'
+    sleep 20
     break
   fi
   sleep 10

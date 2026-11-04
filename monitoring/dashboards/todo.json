@@ -31,7 +31,9 @@
       ],
       "fieldConfig": {
         "defaults": {
-          "unit": "percent"
+          "unit": "percent",
+          "min": 0,
+          "max": 100
         },
         "overrides": []
       }
@@ -58,7 +60,9 @@
       ],
       "fieldConfig": {
         "defaults": {
-          "unit": "percent"
+          "unit": "percent",
+          "min": 0,
+          "max": 100
         },
         "overrides": []
       }
@@ -85,7 +89,10 @@
       ],
       "fieldConfig": {
         "defaults": {
-          "unit": "short"
+          "unit": "short",
+          "min": 0,
+          "max": 1,
+          "decimals": 0
         },
         "overrides": []
       }
@@ -139,7 +146,10 @@
       ],
       "fieldConfig": {
         "defaults": {
-          "unit": "short"
+          "unit": "short",
+          "min": 0,
+          "max": 1,
+          "decimals": 0
         },
         "overrides": []
       }
