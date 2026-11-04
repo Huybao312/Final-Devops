@@ -1,22 +1,31 @@
-# Incident playbook
+# Sổ tay xử lý sự cố
 
-## 1. App down / Nginx 502
+## 1. Ứng dụng ngừng hoạt động / Nginx trả lỗi 502
 
-Detect: Grafana health 0; `TodoAppUnavailable` Firing. Record UTC start with `date -u`.
-Diagnose: `bash scripts/week3/app.sh status`, `SINCE=10m bash scripts/week3/app.sh logs`, `curl -i http://127.0.0.1/health`, `sudo journalctl -u nginx --since '10 min ago' --no-pager`. Inspect whether app is stopped, unhealthy, or failing to connect to DB. A stopped process may have only lifecycle logs; use Nginx upstream error log (`sudo tail -n 40 /var/log/nginx/error.log`) for the failed request.
-Recover: `bash scripts/week3/app.sh start` for a stopped app. Do not rebuild/tag random source during recovery. For a configuration/code fault, correct the cause and use the tested deployment pipeline.
-Verify: `/health` 200, `/version` expected SHA, Grafana health 1 and alert inactive. Record recovery time and cause.
+**Phát hiện:** Grafana hiển thị health = 0; cảnh báo `TodoAppUnavailable` ở trạng thái Firing (đang cảnh báo). Ghi thời điểm bắt đầu theo UTC bằng `date -u`.
 
-## 2. App cannot reach database
+**Chẩn đoán:** dùng `bash scripts/week3/app.sh status`, `SINCE=10m bash scripts/week3/app.sh logs`, `curl -i http://127.0.0.1/health`, `sudo journalctl -u nginx --since '10 min ago' --no-pager`. Xác định ứng dụng đã dừng, không khỏe hay không kết nối được cơ sở dữ liệu. Tiến trình đã dừng có thể chỉ còn nhật ký vòng đời; xem nhật ký lỗi kết nối dịch vụ phía sau của Nginx (`sudo tail -n 40 /var/log/nginx/error.log`) để tìm yêu cầu thất bại.
 
-Detect: `/health` 503, app requests fail while process remains running.
-Diagnose: DB status/logs, `docker exec DB_CONTAINER pg_isready -U postgres -d todo`, disk usage `df -h`, internal network and credentials (privately). Distinguish network/auth errors from database crash or full disk. Never print passwords in incident evidence.
-Recover: start the existing DB container if stopped; correct the actual disk/network/auth fault. Never delete the named volume or initialize an empty replacement as a shortcut.
-Verify: SQL read succeeds, `/health` 200 and an existing task can be read. Do not simulate this incident against production just for extra screenshots.
+**Khôi phục:** chạy `bash scripts/week3/app.sh start` nếu ứng dụng đã dừng. Không tùy tiện xây dựng lại hoặc gắn nhãn mã nguồn trong lúc khôi phục. Nếu lỗi cấu hình/mã nguồn, sửa nguyên nhân và dùng quy trình triển khai đã kiểm thử.
 
-## 3. Deleted task / restore needed
+**Xác nhận:** `/health` trả 200, `/version` trả mã SHA mong đợi, Grafana health = 1 và cảnh báo không còn hoạt động. Ghi thời gian khôi phục và nguyên nhân.
 
-Detect: missing record; record time, scope, last successful backup.
-Diagnose: distinguish accidental deletion from wrong DB/filters. Verify archive checksum and restore it into a NEW isolated DB using `restore.sh`. Query for the missing record.
-Recover: run `verify-restore.sh` for the checkpoint drill; it modifies only synthetic data in an isolated DB. For a real incident, inspect restored rows and plan reviewed selective recovery or maintenance cutover; don't blindly overwrite current production data.
-Verify: compare count/checksum and required records, preserve archive and restore log. Restore does not recover changes newer than the backup. Record data loss window, cause and prevention.
+## 2. Ứng dụng không kết nối được cơ sở dữ liệu
+
+**Phát hiện:** `/health` trả 503, yêu cầu tới ứng dụng thất bại dù tiến trình vẫn chạy.
+
+**Chẩn đoán:** kiểm tra trạng thái/nhật ký cơ sở dữ liệu, `docker exec DB_CONTAINER pg_isready -U postgres -d todo`, dung lượng đĩa bằng `df -h`, mạng nội bộ và thông tin đăng nhập (kiểm tra riêng tư). Phân biệt lỗi mạng/xác thực với cơ sở dữ liệu bị dừng hoặc đầy đĩa. Không in mật khẩu trong minh chứng sự cố.
+
+**Khôi phục:** khởi động container cơ sở dữ liệu hiện có nếu bị dừng; sửa đúng lỗi đĩa/mạng/xác thực. Không xóa volume có tên hoặc khởi tạo cơ sở dữ liệu rỗng thay thế để xử lý tắt.
+
+**Xác nhận:** truy vấn SQL đọc được dữ liệu, `/health` trả 200 và đọc được một công việc đã tồn tại. Không mô phỏng lỗi này trên hệ thống đang phục vụ chỉ để bổ sung ảnh chụp.
+
+## 3. Công việc bị xóa / cần khôi phục dữ liệu
+
+**Phát hiện:** thiếu bản ghi; ghi thời điểm, phạm vi và bản sao lưu thành công gần nhất.
+
+**Chẩn đoán:** phân biệt xóa nhầm với chọn sai cơ sở dữ liệu/bộ lọc. Kiểm tra mã kiểm tra toàn vẹn của tệp sao lưu và dùng `restore.sh` khôi phục vào cơ sở dữ liệu cô lập MỚI. Truy vấn bản ghi bị thiếu.
+
+**Khôi phục:** chạy `verify-restore.sh` cho bài thử checkpoint; script chỉ sửa dữ liệu thử nghiệm trong cơ sở dữ liệu cô lập. Với sự cố thật, kiểm tra các dòng đã khôi phục và lập phương án khôi phục chọn lọc được rà soát hoặc chuyển đổi trong thời gian bảo trì; không ghi đè dữ liệu hiện tại một cách mù quáng.
+
+**Xác nhận:** so sánh số dòng, mã kiểm tra dữ liệu và các bản ghi cần thiết; giữ tệp sao lưu và nhật ký khôi phục. Không thể lấy lại thay đổi mới hơn bản sao lưu bằng quy trình này. Ghi khoảng thời gian có thể mất dữ liệu, nguyên nhân và cách phòng tránh.

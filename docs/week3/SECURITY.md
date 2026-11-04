@@ -1,24 +1,24 @@
-# Week 3 security and ports
+# Tuần 3 — Bảo mật và các cổng mạng
 
-Record PASS/FAIL and UTC date on the actual VM; config review alone is not proof.
+Ghi kết quả đạt/không đạt và ngày theo UTC trên máy ảo thực tế; chỉ đọc cấu hình chưa phải minh chứng vận hành.
 
-| Check | Expected | Runtime result |
+| Hạng mục | Kết quả mong đợi | Kết quả kiểm tra thực tế |
 |---|---|---|
-| SSH 22 | Needed for administration; key access | PASS 2026-11-04 |
-| Nginx 80 | Public app entry on VM LAN | PASS 2026-11-04 |
-| app 5000 | 127.0.0.1 only | PASS 2026-11-04 |
-| PostgreSQL 5432 | No host publish; internal backend network | PASS 2026-11-04 |
-| Grafana 3000 | 127.0.0.1; SSH tunnel + login | PASS 2026-11-04 |
-| Prometheus 9090, exporters 9100/9115 | 127.0.0.1 only | PASS 2026-11-04 |
-| UFW | deny incoming; allow SSH/HTTP only | PASS — owner console audit, 22/80 only |
-| DB role todo_app | DML only; no superuser/DDL/role creation | PASS 2026-11-04 |
-| Secrets | outside Git; files 600; owner only | PASS 2026-11-04 |
-| Docker logs | rotated; no passwords printed | PASS — inspect 10m × 3, reviewed incident logs |
+| SSH 22 | Phục vụ quản trị; đăng nhập bằng khóa | ĐẠT 2026-11-04 |
+| Nginx 80 | Cổng vào ứng dụng trên mạng LAN của máy ảo | ĐẠT 2026-11-04 |
+| Ứng dụng 5000 | Chỉ nghe tại 127.0.0.1 | ĐẠT 2026-11-04 |
+| PostgreSQL 5432 | Container không công bố cổng ra máy chủ; dùng mạng backend nội bộ | ĐẠT 2026-11-04 |
+| Grafana 3000 | 127.0.0.1; truy cập qua đường hầm SSH và đăng nhập | ĐẠT 2026-11-04 |
+| Prometheus 9090, bộ xuất số liệu 9100/9115 | Chỉ nghe tại 127.0.0.1 | ĐẠT 2026-11-04 |
+| UFW | Chặn kết nối vào; chỉ cho phép SSH/HTTP | ĐẠT — kiểm tra tại console bởi chủ máy, chỉ 22/80 |
+| Vai trò DB todo_app | Chỉ thao tác dữ liệu; không có quyền siêu quản trị/tạo cấu trúc/tạo vai trò | ĐẠT 2026-11-04 |
+| Thông tin bí mật | Ngoài Git; tệp quyền 600; chỉ chủ sở hữu truy cập | ĐẠT 2026-11-04 |
+| Nhật ký Docker | Luân chuyển tệp; không in mật khẩu | ĐẠT — kiểm tra cấu hình 10m × 3 và rà soát nhật ký sự cố |
 
-Run `bash scripts/week3/security-audit.sh`. Existing `sudo bash scripts/setup-firewall.sh` enables deny-incoming plus SSH/HTTP. Inspect existing UFW rules first: the script does not remove earlier allow rules. Remove unnecessary allow rules explicitly after review. Keep an SSH connection and UTM console open while changing firewall. Docker port publishing can bypass UFW; loopback bindings and no DB publish are necessary independent controls.
+Chạy `bash scripts/week3/security-audit.sh`. Script `sudo bash scripts/setup-firewall.sh` hiện có bật chính sách chặn kết nối vào và cho phép SSH/HTTP. Kiểm tra quy tắc UFW hiện tại trước: script không xóa các quy tắc cho phép cũ. Sau khi rà soát, xóa riêng các quy tắc không cần thiết. Giữ kết nối SSH và console UTM mở khi thay đổi tường lửa. Việc công bố cổng Docker có thể đi vòng qua UFW; chỉ nghe tại địa chỉ nội bộ (loopback) và không công bố cổng DB là các lớp kiểm soát độc lập cần thiết.
 
-Production passwords stay in GitHub Actions secrets and the VM env file; Grafana generates its own credential outside repo. App uses todo_app, PostgreSQL administrative access is reserved for backup/restore and administration. Docker group grants effective root access; it is not a restricted user role. Only the trusted deployment user should belong. GitHub runner executes repository workflows: restrict repo write rights and production environment access; do not run untrusted fork code on that runner.
+Mật khẩu hệ thống đang phục vụ nằm trong GitHub Actions secrets và tệp biến môi trường của máy ảo; Grafana tạo thông tin đăng nhập riêng ngoài kho mã. Ứng dụng dùng `todo_app`; quyền quản trị PostgreSQL dành cho sao lưu/khôi phục và quản trị. Nhóm Docker có quyền thực tế tương đương root, không phải vai trò người dùng bị giới hạn. Chỉ tài khoản triển khai tin cậy được tham gia nhóm này. Runner GitHub chạy quy trình của kho mã: giới hạn quyền ghi kho mã và quyền truy cập môi trường production; không chạy mã từ bản fork không tin cậy trên runner đó.
 
-The existing PostgreSQL Week 1 host service may still be present for rollback. Audit `ss -lnt` for its port too; verify it binds loopback or stop it only after a tested backup and explicit rollback decision. Do not confuse it with the container database.
+Dịch vụ PostgreSQL cài trực tiếp từ tuần 1 có thể còn để quay lại phiên bản cũ. Kiểm tra cả cổng của dịch vụ này bằng `ss -lnt`; xác nhận chỉ nghe loopback, hoặc chỉ dừng sau khi có bản sao lưu đã kiểm thử và quyết định rõ về phương án quay lại. Không nhầm dịch vụ này với cơ sở dữ liệu trong container.
 
-`.env`/dumps are ignored, but ignore rules do not remove historic secrets. Review history before public submission; if a credential has leaked, rotate it. Do not show `.env`, `docker inspect` environment output or `docker compose config` (without `-q`) while screen sharing.
+`.env` và tệp sao lưu được bỏ qua, nhưng quy tắc bỏ qua không xóa thông tin bí mật trong lịch sử Git. Rà soát lịch sử trước khi nộp công khai; thay thông tin đăng nhập nếu đã bị lộ. Không hiển thị `.env`, phần biến môi trường của `docker inspect` hoặc `docker compose config` (không có `-q`) khi chia sẻ màn hình.
