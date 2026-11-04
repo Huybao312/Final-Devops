@@ -18,6 +18,11 @@ services:
       interval: 5s
       timeout: 3s
       retries: 12
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
     restart: unless-stopped
 
   app:
@@ -42,6 +47,11 @@ services:
       timeout: 4s
       retries: 12
       start_period: 10s
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
     restart: unless-stopped
 
 networks:
