@@ -12,6 +12,7 @@ test -s "$archive.partial"
 docker exec -i "$DB_CONTAINER" pg_restore --list <"$archive.partial" >/dev/null
 mv "$archive.partial" "$archive"
 sha256sum "$archive" >"$archive.sha256"
-log "BACKUP OK database=$database archive=$archive" | tee -a "$BACKUP_DIR/operations.log"
+log "BACKUP OK database=$database archive=$archive" | tee -a "$BACKUP_DIR/operations.log" >&2
 # Keep at least the newest archive. Old complete archives expire after 14 days.
 find "$BACKUP_DIR" -maxdepth 1 -type f \( -name '*.dump' -o -name '*.dump.sha256' \) -mtime +14 ! -name "$(basename "$archive")" ! -name "$(basename "$archive").sha256" -delete
+printf '%s\n' "$archive"

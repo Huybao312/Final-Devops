@@ -8,13 +8,11 @@ trial="week3_restore_trial_$suffix"
 result="week3_restore_result_$suffix"
 signature() { sql "$1" -Atc "SELECT count(*) || '|' || md5(coalesce(string_agg(row_to_json(t)::text, ',' ORDER BY id), '')) FROM public.tasks t;"; }
 log 'Take a production snapshot; all destructive demonstration operations use an isolated database.'
-bash "$ROOT/scripts/week3/backup.sh" todo
-production_archive="$(ls -t "$BACKUP_DIR"/todo_*.dump | head -1)"
+production_archive="$(bash "$ROOT/scripts/week3/backup.sh" todo)"
 bash "$ROOT/scripts/week3/restore.sh" "$production_archive" "$trial"
 sql "$trial" -c "INSERT INTO public.tasks(title,description) VALUES ('week3-restore-proof-$suffix','Synthetic data for restore demo');"
 before="$(signature "$trial")"
-bash "$ROOT/scripts/week3/backup.sh" "$trial"
-trial_archive="$(ls -t "$BACKUP_DIR"/"$trial"_*.dump | head -1)"
+trial_archive="$(bash "$ROOT/scripts/week3/backup.sh" "$trial")"
 sql "$trial" -c "DELETE FROM public.tasks WHERE title='week3-restore-proof-$suffix';"
 after_delete="$(signature "$trial")"
 [[ "$before" != "$after_delete" ]]
