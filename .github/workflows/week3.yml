@@ -22,6 +22,7 @@ jobs:
           docker compose -f compose.yaml config -q
           docker compose -f monitoring/compose.yaml config -q
           python3 -m json.tool monitoring/dashboards/todo.json >/dev/null
+          python3 scripts/week3/test-checksum.py
       - name: Prometheus configuration and alert firing/resolution test
         run: |
           docker run --rm --entrypoint promtool -v "$PWD/monitoring:/etc/prometheus:ro" prom/prometheus:v3.5.0 check config /etc/prometheus/prometheus.yml

@@ -4,7 +4,7 @@ archive="${1:?Usage: restore.sh /absolute/path.dump week3_restore_unique_name}"
 destination="${2:?Provide a NEW verification database name}"
 safe_db "$destination"
 [[ "$archive" == /* && -f "$archive" && -f "$archive.sha256" ]] || { echo 'Need absolute archive path and checksum sidecar' >&2; exit 1; }
-sha256sum -c "$archive.sha256"
+python3 "$ROOT/scripts/week3/verify-checksum.py" "$archive"
 db_container
 # createdb fails if destination exists: never overwrite a database.
 docker exec "$DB_CONTAINER" createdb -U postgres --template=template0 "$destination"

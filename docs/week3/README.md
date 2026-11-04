@@ -18,17 +18,19 @@ bash scripts/week3/security-audit.sh
 
 If installing from local files, copy this checkout to `~/Final-Devops-week3` instead. No script changes the production DB schema or clears its volume. Monitoring may need approximately 1–2 minutes of samples before CPU rate graphs appear. Four monitoring containers require additional VM memory; inspect `free -h`/`docker stats --no-stream`.
 
-From Mac, open a tunnel, replacing VM address if changed:
+Canonical access ports on Mac: **13000 Grafana / 19090 Prometheus / 18080 app**. VM listeners remain loopback 3000/9090/80; SSH maps each Mac port to the corresponding VM port. Exporters stay VM-only 9100/9115; DB is not published.
+
+From Mac, open one tunnel, replacing `VM_IP` with the VM address. If a tunnel is already running, reuse it; `ExitOnForwardFailure` prevents silently running a second conflicting tunnel:
 
 ```bash
-ssh -N -L 3000:127.0.0.1:3000 -L 9090:127.0.0.1:9090 -L 8080:127.0.0.1:80 ubuntusever@VM_IP
+ssh -i ~/.ssh/devops_week2_utm -o ExitOnForwardFailure=yes -N -L 13000:127.0.0.1:3000 -L 19090:127.0.0.1:9090 -L 18080:127.0.0.1:80 ubuntusever@VM_IP
 ```
 
-Grafana: http://localhost:3000 (admin); dashboard UID `todo-week3`. Prometheus alerts: http://localhost:9090/alerts. App: http://localhost:8080. Read Grafana's generated password privately from `~/.config/todo-week3/monitoring.env` before screen sharing. It is stored outside Git with mode 600. Grafana initial password is only applied when its volume is first initialized.
+Grafana: http://localhost:13000 (admin); dashboard UID `todo-week3`. Prometheus alerts: http://localhost:19090/alerts. App: http://localhost:18080. Read Grafana's configured password privately from `~/.config/todo-week3/monitoring.env` before screen sharing. It is stored outside Git with mode 600. Grafana initial password is only applied when its volume is first initialized.
 
 ## Logs and alert acceptance
 
-App and DB use Docker JSON logs, rotated at 10 MB × 3 files per container. Gunicorn emits access/error logs to stdout/stderr with captured application output. Rotation is not long-term archival; save the incident time window before containers are replaced.
+App, DB and all four monitoring services use Docker JSON logs, rotated at 10 MB × 3 files per container. Gunicorn emits access/error logs to stdout/stderr with captured application output. Rotation is not long-term archival; save the incident time window before containers are replaced.
 
 ```bash
 SINCE=10m bash scripts/week3/app.sh logs
@@ -40,7 +42,7 @@ SINCE=2026-11-04T00:00:00Z bash scripts/week3/app.sh logs
 
 ## Backup policy and restore
 
-`backup.sh [todo|week3_restore_name]` creates a custom-format PostgreSQL 18 archive and SHA-256 sidecar under `~/todo-backups` (directory 700, files 600). Partial failures do not produce a complete archive. Local archives expire after 14 days; `operations.log` records outcomes. Run daily manually, or schedule with the VM user's crontab using the stable checkout path. Copy encrypted archives to a separate disk/device for host-loss protection: VM-local backup alone does not cover losing the VM disk.
+`backup.sh [todo|week3_restore_name]` creates a custom-format PostgreSQL 18 archive and SHA-256 sidecar under `~/todo-backups` (directory 700, files 600). New sidecars contain a basename rather than an absolute path. Restore always hashes the exact selected archive and compares only the expected digest, including for legacy absolute-path sidecars. Copy or rename the archive together with its sidecar; altered archives are rejected before any database is created. Partial failures do not produce a complete archive. Local archives expire after 14 days; `operations.log` records outcomes. Run daily manually, or schedule with the VM user's crontab using the stable checkout path. Copy encrypted archives to a separate disk/device for host-loss protection: VM-local backup alone does not cover losing the VM disk.
 
 ```cron
 0 2 * * * /bin/bash /home/ubuntusever/Final-Devops-week3/scripts/week3/backup.sh >> /home/ubuntusever/todo-backups/scheduler.log 2>&1

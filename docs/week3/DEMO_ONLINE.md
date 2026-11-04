@@ -2,9 +2,25 @@
 
 ## Chuẩn bị trước giờ chia sẻ màn hình
 
+Terminal Mac 1 — giữ SSH tunnel mở (thay `VM_IP` bằng IP hiện tại của VM):
+
+```bash
+ssh -i ~/.ssh/devops_week2_utm -o ExitOnForwardFailure=yes -N -L 13000:127.0.0.1:3000 -L 19090:127.0.0.1:9090 -L 18080:127.0.0.1:80 ubuntusever@VM_IP
+```
+
+Terminal Mac 2 — đăng nhập VM rồi chuẩn bị trước khi chia sẻ màn hình:
+
+```bash
+ssh -i ~/.ssh/devops_week2_utm ubuntusever@VM_IP
+cd ~/Final-Devops-week3
+sudo -v
+```
+
+Grafana dùng tài khoản `admin`, mật khẩu đã cấu hình trong file riêng trên VM. Đọc mật khẩu và đăng nhập trước khi chia sẻ màn hình. Nếu tunnel báo port đã được dùng, thử các URL bên dưới và dùng lại tunnel cũ nếu đã truy cập được.
+
 - VM phải đang bật; Docker, Nginx, monitoring đã chạy. Không để Mac/VM ngủ khi demo.
 - Terminal VM ở `~/Final-Devops-week3`, một terminal Mac giữ SSH tunnel theo README.
-- Mở http://localhost:3000/d/todo-week3, http://localhost:9090/alerts và http://localhost:8080.
+- Mở http://localhost:13000/d/todo-week3, http://localhost:19090/alerts và http://localhost:18080.
 - Đăng nhập Grafana trước; đóng cửa sổ chứa mật khẩu. Chỉ chia sẻ cửa sổ trình duyệt/terminal demo.
 - Đã chạy thử `verify-restore.sh`; lưu ảnh/log kết quả thật làm dự phòng. Không nói PASS nếu chưa chạy.
 
