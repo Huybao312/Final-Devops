@@ -4,7 +4,7 @@
 
 **Phát hiện:** Grafana hiển thị health = 0; cảnh báo `TodoAppUnavailable` ở trạng thái Firing (đang cảnh báo). Ghi thời điểm bắt đầu theo UTC bằng `date -u`.
 
-**Chẩn đoán:** dùng `bash scripts/week3/app.sh status`, `SINCE=10m bash scripts/week3/app.sh logs`, `curl -i http://127.0.0.1/health`, `sudo journalctl -u nginx --since '10 min ago' --no-pager`. Xác định ứng dụng đã dừng, không khỏe hay không kết nối được cơ sở dữ liệu. Tiến trình đã dừng có thể chỉ còn nhật ký vòng đời; xem nhật ký lỗi kết nối dịch vụ phía sau của Nginx (`sudo tail -n 40 /var/log/nginx/error.log`) để tìm yêu cầu thất bại.
+**Chẩn đoán:** dùng `bash scripts/week3/app.sh status`, `SINCE=10m bash scripts/week3/app.sh logs`, `curl -i http://127.0.0.1/health`, `sudo journalctl -u nginx --since '10 min ago' --no-pager`. Xác định ứng dụng đã dừng, không khỏe hay không kết nối được cơ sở dữ liệu. Tiến trình đã dừng có thể chỉ còn nhật ký vòng đời; xem nhật ký lỗi kết nối dịch vụ phía sau của Nginx (`sudo tail -n 40 /var/log/nginx/todo-error.log`) để tìm yêu cầu thất bại.
 
 **Khôi phục:** chạy `bash scripts/week3/app.sh start` nếu ứng dụng đã dừng. Không tùy tiện xây dựng lại hoặc gắn nhãn mã nguồn trong lúc khôi phục. Nếu lỗi cấu hình/mã nguồn, sửa nguyên nhân và dùng quy trình triển khai đã kiểm thử.
 

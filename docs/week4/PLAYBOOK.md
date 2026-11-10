@@ -2,6 +2,8 @@
 
 Quy tắc chung: ghi UTC và phạm vi ảnh hưởng; thu log trước khi sửa; nêu giả thuyết rồi xác minh; sửa nguyên nhân; xác nhận health, dữ liệu và version. Không xóa volume để chữa lỗi kết nối. Các bài phá lỗi chủ động dùng project `todo-week4-rehearsal-*`, không dùng production.
 
+Nginx host production ghi lỗi upstream tại `/var/log/nginx/todo-error.log` (đã đối chiếu file site đang chạy); xem bằng `sudo tail -n 40 /var/log/nginx/todo-error.log`. Proxy container rehearsal có log stdout/stderr qua helper, là hai vị trí khác nhau.
+
 ## 1. App stopped → Nginx 502 (đã thực nghiệm)
 
 - **Triệu chứng:** HTTP 502; trong production dashboard health 0 và alert Pending/Firing.
