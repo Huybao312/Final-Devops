@@ -61,7 +61,7 @@ SINCE=10m bash scripts/week3/app.sh logs
 bash scripts/week3/security-audit.sh
 ```
 
-Cấu hình cron theo hướng dẫn tuần 3, dùng đường dẫn repo thực tế; tạo `~/todo-backups` trước khi redirect log. Restore được thử trên DB mới, không ghi đè production. Chứng minh khôi phục không đồng nghĩa đã có kế hoạch cutover production tự động: phải xác nhận quyền todo_app, dừng ghi và rà dữ liệu khi sự cố thật.
+Cron chỉ chạy khi VM đang bật tại thời điểm lịch; không tự bù lần chạy đã bỏ lỡ khi VM tắt. Backup thủ công trước buổi demo và trước thay đổi dữ liệu quan trọng. Cấu hình cron theo hướng dẫn tuần 3, dùng đường dẫn repo thực tế; tạo `~/todo-backups` trước khi redirect log. Restore được thử trên DB mới, không ghi đè production. Chứng minh khôi phục không đồng nghĩa đã có kế hoạch cutover production tự động: phải xác nhận quyền todo_app, dừng ghi và rà dữ liệu khi sự cố thật.
 
 ## 6. Diễn tập độc lập và dọn dẹp
 

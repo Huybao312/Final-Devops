@@ -1,7 +1,7 @@
 name: Week 4 final verification
 on:
   push:
-    branches: [week4-final]
+    branches: [week4-final, main]
   pull_request:
   workflow_dispatch:
 permissions:
