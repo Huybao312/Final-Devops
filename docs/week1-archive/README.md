@@ -58,6 +58,8 @@ Checkpoint: **Deploy a Working Application** — tối đa 2.0/10 điểm.
 
 ## 4. Kiến trúc
 
+> Đường dẫn ảnh mặc định đã cập nhật sang sơ đồ final; nội dung systemd bên dưới là lịch sử.
+
 ![Architecture](../../docs/architecture.png)
 
 Sơ đồ: [`docs/architecture.png`](../../docs/architecture.png); giải thích chi tiết tại [`docs/architecture.md`](../../docs/architecture.md).

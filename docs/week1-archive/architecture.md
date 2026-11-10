@@ -8,7 +8,7 @@
 
 ## 1. Sơ đồ
 
-Ảnh kiến trúc: [`architecture.png`](../architecture.png).
+Ảnh ở đường dẫn mặc định hiện là sơ đồ final; sơ đồ tuần 1 nguyên bản chỉ còn trong lịch sử Git. Ảnh hiện tại: [`architecture.png`](../architecture.png).
 
 ```mermaid
 flowchart LR
