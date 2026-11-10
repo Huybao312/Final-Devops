@@ -8,3 +8,5 @@
 Private network addresses in raw rehearsal logs are redacted as `[internal-address]`. No secret values or database archives are included. Week 3 dashboard/alert screenshots used in the report/video retain their original date and are identified as historical evidence. Browser access was unavailable during final document preparation, so no fresh UI screenshots were fabricated; current VM checks use API/logs.
 
 The video walkthrough is a clearly labeled TTS rehearsal, not a recording of the named team members. Final member narration and contribution confirmation are human submission tasks.
+
+Final-candidate repeat on source f69d2059605b57571554772d884e0de6a3709777: rehearsal-final-vm.txt, 04:20:11–04:20:46 UTC, PASS all checks. Older runs remain identified by their own SHA/date.

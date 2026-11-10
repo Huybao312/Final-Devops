@@ -1,0 +1,231 @@
+START 2026-11-10T04:20:11Z project=todo-week4-rehearsal-20261110042011-29123 fresh volumes, separate credentials
+Rehearsal only: app=127.0.0.1:45515 proxy=127.0.0.1:45165
+Environment file is ready; its contents were not printed.
+ Image todo-task-manager:f69d2059605b57571554772d884e0de6a3709777 Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 684B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 742B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/python:3.12-slim
+#3 DONE 0.8s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 163B done
+#4 DONE 0.0s
+
+#5 [builder 1/4] FROM docker.io/library/python:3.12-slim@sha256:5e2bdb1b0d542d5039cffb8181c65930093949194a65c365dfb1b0fe13a4fa5b
+#5 resolve docker.io/library/python:3.12-slim@sha256:5e2bdb1b0d542d5039cffb8181c65930093949194a65c365dfb1b0fe13a4fa5b 0.0s done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 132B done
+#6 DONE 0.0s
+
+#7 [builder 3/4] COPY requirements.txt .
+#7 CACHED
+
+#8 [builder 4/4] RUN python -m venv /opt/venv && /opt/venv/bin/pip install --no-cache-dir -r requirements.txt
+#8 CACHED
+
+#9 [stage-1 2/6] WORKDIR /app
+#9 CACHED
+
+#10 [builder 2/4] WORKDIR /build
+#10 CACHED
+
+#11 [stage-1 3/6] COPY --from=builder /opt/venv /opt/venv
+#11 CACHED
+
+#12 [stage-1 4/6] COPY app.py ./
+#12 CACHED
+
+#13 [stage-1 5/6] COPY templates ./templates
+#13 CACHED
+
+#14 [stage-1 6/6] RUN useradd --uid 10001 --user-group --home-dir /app --no-create-home --shell /usr/sbin/nologin appuser
+#14 DONE 0.2s
+
+#15 exporting to image
+#15 exporting layers 0.1s done
+#15 exporting manifest sha256:8bbaa9763d86dff34de89df0f8553131fbe3a02396a684c61ec4ecec9e9f569a done
+#15 exporting config sha256:467bc321a82a6e31e63808a630357412da2505f533f63d8ae1f3115f664b44a9 done
+#15 exporting attestation manifest sha256:e99c93f907822a5893753c0fb046d6850d09936625b937929e72116f957a1b09 done
+#15 exporting manifest list sha256:f61effd21e8d8adc9f9436750f5a7aa2c41967c52c5428d47ab6048d36f9e973
+#15 exporting manifest list sha256:f61effd21e8d8adc9f9436750f5a7aa2c41967c52c5428d47ab6048d36f9e973 done
+#15 naming to docker.io/library/todo-task-manager:f69d2059605b57571554772d884e0de6a3709777 done
+#15 unpacking to docker.io/library/todo-task-manager:f69d2059605b57571554772d884e0de6a3709777 0.0s done
+#15 DONE 0.1s
+
+#16 resolving provenance for metadata file
+#16 DONE 0.0s
+ Image todo-task-manager:f69d2059605b57571554772d884e0de6a3709777 Built 
+ Network todo-week4-rehearsal-20261110042011-29123_backend Creating 
+ Network todo-week4-rehearsal-20261110042011-29123_backend Creating 
+ Network todo-week4-rehearsal-20261110042011-29123_frontend Creating 
+ Network todo-week4-rehearsal-20261110042011-29123_frontend Creating 
+ Volume todo-week4-rehearsal-20261110042011-29123_postgres_data Creating 
+ Volume todo-week4-rehearsal-20261110042011-29123_postgres_data Creating 
+ Volume todo-week4-rehearsal-20261110042011-29123_postgres_data Created 
+ Volume todo-week4-rehearsal-20261110042011-29123_postgres_data Created 
+ Network todo-week4-rehearsal-20261110042011-29123_backend Created 
+ Network todo-week4-rehearsal-20261110042011-29123_backend Created 
+ Container todo-week4-rehearsal-20261110042011-29123-db-1 Creating 
+ Network todo-week4-rehearsal-20261110042011-29123_frontend Created 
+ Network todo-week4-rehearsal-20261110042011-29123_frontend Created 
+ Container todo-week4-rehearsal-20261110042011-29123-db-1 Created 
+ Container todo-week4-rehearsal-20261110042011-29123-app-1 Creating 
+ Container todo-week4-rehearsal-20261110042011-29123-app-1 Created 
+ Container todo-week4-rehearsal-20261110042011-29123-proxy-1 Creating 
+ Container todo-week4-rehearsal-20261110042011-29123-proxy-1 Created 
+ Container todo-week4-rehearsal-20261110042011-29123-db-1 Starting 
+ Container todo-week4-rehearsal-20261110042011-29123-db-1 Started 
+ Container todo-week4-rehearsal-20261110042011-29123-db-1 Waiting 
+ Container todo-week4-rehearsal-20261110042011-29123-db-1 Healthy 
+ Container todo-week4-rehearsal-20261110042011-29123-app-1 Starting 
+ Container todo-week4-rehearsal-20261110042011-29123-app-1 Started 
+ Container todo-week4-rehearsal-20261110042011-29123-proxy-1 Starting 
+ Container todo-week4-rehearsal-20261110042011-29123-proxy-1 Started 
+ Container todo-week4-rehearsal-20261110042011-29123-db-1 Waiting 
+ Container todo-week4-rehearsal-20261110042011-29123-app-1 Waiting 
+ Container todo-week4-rehearsal-20261110042011-29123-proxy-1 Waiting 
+ Container todo-week4-rehearsal-20261110042011-29123-proxy-1 Healthy 
+ Container todo-week4-rehearsal-20261110042011-29123-db-1 Healthy 
+ Container todo-week4-rehearsal-20261110042011-29123-app-1 Healthy 
+PASS /health status=200
+{"version":"f69d2059605b57571554772d884e0de6a3709777"}
+INCIDENT 1: stopped app -> proxy 502; root cause app process unavailable
+ Container todo-week4-rehearsal-20261110042011-29123-app-1 Stopping 
+ Container todo-week4-rehearsal-20261110042011-29123-app-1 Stopped 
+PASS /health status=502
+proxy-1  | 2026-11-10T04:20:19.769982215Z 2026/11/10 04:20:19 [notice] 1#1: start worker processes
+proxy-1  | 2026-11-10T04:20:19.770315135Z 2026/11/10 04:20:19 [notice] 1#1: start worker process 20
+proxy-1  | 2026-11-10T04:20:19.771127477Z 2026/11/10 04:20:19 [notice] 1#1: start worker process 21
+proxy-1  | 2026-11-10T04:20:19.771135019Z 2026/11/10 04:20:19 [notice] 1#1: start worker process 22
+proxy-1  | 2026-11-10T04:20:19.771136352Z 2026/11/10 04:20:19 [notice] 1#1: start worker process 23
+proxy-1  | 2026-11-10T04:20:25.397087800Z [internal-address] - - [10/Nov/2026:04:20:25 +0000] "GET /health HTTP/1.1" 200 21 "-" "curl/8.18.0" "-"
+proxy-1  | 2026-11-10T04:20:25.412977253Z [internal-address] - - [10/Nov/2026:04:20:25 +0000] "GET /version HTTP/1.1" 200 55 "-" "curl/8.18.0" "-"
+proxy-1  | 2026-11-10T04:20:25.434283261Z [internal-address] - - [10/Nov/2026:04:20:25 +0000] "POST /tasks HTTP/1.1" 302 189 "-" "curl/8.18.0" "-"
+proxy-1  | 2026-11-10T04:20:25.951597513Z [internal-address] - - [10/Nov/2026:04:20:25 +0000] "GET /health HTTP/1.1" 502 157 "-" "curl/8.18.0" "-"
+proxy-1  | 2026-11-10T04:20:25.951605554Z 2026/11/10 04:20:25 [error] 23#23: *10 app could not be resolved (2: Server failure), client: [internal-address], server: _, request: "GET /health HTTP/1.1", host: "127.0.0.1:45165"
+ Container todo-week4-rehearsal-20261110042011-29123-db-1 Waiting 
+ Container todo-week4-rehearsal-20261110042011-29123-db-1 Healthy 
+ Container todo-week4-rehearsal-20261110042011-29123-app-1 Starting 
+ Container todo-week4-rehearsal-20261110042011-29123-app-1 Started 
+PASS /health status=200
+RECOVERED 1: restarted existing app container
+INCIDENT 2: stopped DB -> health 503; root cause database connection unavailable
+ Container todo-week4-rehearsal-20261110042011-29123-db-1 Stopping 
+ Container todo-week4-rehearsal-20261110042011-29123-db-1 Stopped 
+PASS /health status=503
+app-1  | 2026-11-10T04:20:25.535854542Z [2026-11-10 04:20:25 +0000] [7] [INFO] Worker exiting (pid: 7)
+app-1  | 2026-11-10T04:20:25.739728945Z [2026-11-10 04:20:25 +0000] [1] [INFO] Shutting down: Master
+app-1  | 2026-11-10T04:20:27.080171053Z [2026-11-10 04:20:27 +0000] [1] [INFO] Starting gunicorn 26.2.0
+app-1  | 2026-11-10T04:20:27.080207970Z [2026-11-10 04:20:27 +0000] [1] [INFO] Listening at: http://0.0.0.0:5000 (1)
+app-1  | 2026-11-10T04:20:27.080210929Z [2026-11-10 04:20:27 +0000] [1] [INFO] Using worker: sync
+app-1  | 2026-11-10T04:20:27.081912071Z [2026-11-10 04:20:27 +0000] [7] [INFO] Booting worker with pid: 7
+app-1  | 2026-11-10T04:20:27.157566297Z [2026-11-10 04:20:27 +0000] [8] [INFO] Booting worker with pid: 8
+app-1  | 2026-11-10T04:20:27.844894650Z [internal-address] - - [10/Nov/2026:04:20:27 +0000] "GET /health HTTP/1.0" 200 21 "-" "curl/8.18.0"
+app-1  | 2026-11-10T04:20:28.009262735Z [2026-11-10 04:20:28,008] WARNING in app: health database check failed (OperationalError)
+app-1  | 2026-11-10T04:20:28.009571488Z [internal-address] - - [10/Nov/2026:04:20:28 +0000] "GET /health HTTP/1.0" 503 23 "-" "curl/8.18.0"
+ Container todo-week4-rehearsal-20261110042011-29123-db-1 Starting 
+ Container todo-week4-rehearsal-20261110042011-29123-db-1 Started 
+PASS /health status=200
+RECOVERED 2: restarted existing DB with same volume
+INCIDENT 3: valid proxy syntax, wrong upstream port -> 502
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful
+2026/11/10 04:20:29 [notice] 30#30: signal process started
+PASS /health status=502
+proxy-1  | 2026-11-10T04:20:29.687201978Z 2026/11/10 04:20:29 [notice] 1#1: worker process 20 exited with code 0
+proxy-1  | 2026-11-10T04:20:29.687246437Z 2026/11/10 04:20:29 [notice] 1#1: signal 29 (SIGIO) received
+proxy-1  | 2026-11-10T04:20:29.689679711Z 2026/11/10 04:20:29 [notice] 1#1: signal 17 (SIGCHLD) received from 23
+proxy-1  | 2026-11-10T04:20:29.689716504Z 2026/11/10 04:20:29 [notice] 1#1: worker process 23 exited with code 0
+proxy-1  | 2026-11-10T04:20:29.689786504Z 2026/11/10 04:20:29 [notice] 1#1: signal 29 (SIGIO) received
+proxy-1  | 2026-11-10T04:20:29.690822640Z 2026/11/10 04:20:29 [notice] 1#1: signal 17 (SIGCHLD) received from 22
+proxy-1  | 2026-11-10T04:20:29.690829890Z 2026/11/10 04:20:29 [notice] 1#1: worker process 22 exited with code 0
+proxy-1  | 2026-11-10T04:20:29.690886265Z 2026/11/10 04:20:29 [notice] 1#1: signal 29 (SIGIO) received
+proxy-1  | 2026-11-10T04:20:30.637840296Z [internal-address] - - [10/Nov/2026:04:20:30 +0000] "GET /health HTTP/1.1" 502 157 "-" "curl/8.18.0" "-"
+proxy-1  | 2026-11-10T04:20:30.637960463Z 2026/11/10 04:20:30 [error] 35#35: *24 connect() failed (111: Connection refused) while connecting to upstream, client: [internal-address], server: _, request: "GET /health HTTP/1.1", upstream: "http://[internal-address]:5999/health", host: "127.0.0.1:45165"
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful
+2026/11/10 04:20:30 [notice] 45#45: signal process started
+PASS /health status=200
+RECOVERED 3: corrected upstream port; syntax check alone had not detected runtime fault
+VERIFY DB least privilege
+SET
+ERROR:  permission denied for schema public
+LINE 1: SET ROLE todo_app; CREATE TABLE public.forbidden(id int);
+                                        ^
+VERIFY persistence after container recreation
+ Container todo-week4-rehearsal-20261110042011-29123-proxy-1 Stopping 
+ Container todo-week4-rehearsal-20261110042011-29123-proxy-1 Stopped 
+ Container todo-week4-rehearsal-20261110042011-29123-proxy-1 Removing 
+ Container todo-week4-rehearsal-20261110042011-29123-proxy-1 Removed 
+ Container todo-week4-rehearsal-20261110042011-29123-app-1 Stopping 
+ Container todo-week4-rehearsal-20261110042011-29123-app-1 Stopped 
+ Container todo-week4-rehearsal-20261110042011-29123-app-1 Removing 
+ Container todo-week4-rehearsal-20261110042011-29123-app-1 Removed 
+ Container todo-week4-rehearsal-20261110042011-29123-db-1 Stopping 
+ Container todo-week4-rehearsal-20261110042011-29123-db-1 Stopped 
+ Container todo-week4-rehearsal-20261110042011-29123-db-1 Removing 
+ Container todo-week4-rehearsal-20261110042011-29123-db-1 Removed 
+ Network todo-week4-rehearsal-20261110042011-29123_backend Removing 
+ Network todo-week4-rehearsal-20261110042011-29123_frontend Removing 
+ Network todo-week4-rehearsal-20261110042011-29123_backend Removed 
+ Network todo-week4-rehearsal-20261110042011-29123_frontend Removed 
+ Network todo-week4-rehearsal-20261110042011-29123_backend Creating 
+ Network todo-week4-rehearsal-20261110042011-29123_backend Creating 
+ Network todo-week4-rehearsal-20261110042011-29123_frontend Creating 
+ Network todo-week4-rehearsal-20261110042011-29123_frontend Creating 
+ Network todo-week4-rehearsal-20261110042011-29123_frontend Created 
+ Network todo-week4-rehearsal-20261110042011-29123_frontend Created 
+ Network todo-week4-rehearsal-20261110042011-29123_backend Created 
+ Network todo-week4-rehearsal-20261110042011-29123_backend Created 
+ Container todo-week4-rehearsal-20261110042011-29123-db-1 Creating 
+ Container todo-week4-rehearsal-20261110042011-29123-db-1 Created 
+ Container todo-week4-rehearsal-20261110042011-29123-app-1 Creating 
+ Container todo-week4-rehearsal-20261110042011-29123-app-1 Created 
+ Container todo-week4-rehearsal-20261110042011-29123-proxy-1 Creating 
+ Container todo-week4-rehearsal-20261110042011-29123-proxy-1 Created 
+ Container todo-week4-rehearsal-20261110042011-29123-db-1 Starting 
+ Container todo-week4-rehearsal-20261110042011-29123-db-1 Started 
+ Container todo-week4-rehearsal-20261110042011-29123-db-1 Waiting 
+ Container todo-week4-rehearsal-20261110042011-29123-db-1 Healthy 
+ Container todo-week4-rehearsal-20261110042011-29123-app-1 Starting 
+ Container todo-week4-rehearsal-20261110042011-29123-app-1 Started 
+ Container todo-week4-rehearsal-20261110042011-29123-proxy-1 Starting 
+ Container todo-week4-rehearsal-20261110042011-29123-proxy-1 Started 
+ Container todo-week4-rehearsal-20261110042011-29123-app-1 Waiting 
+ Container todo-week4-rehearsal-20261110042011-29123-proxy-1 Waiting 
+ Container todo-week4-rehearsal-20261110042011-29123-db-1 Waiting 
+ Container todo-week4-rehearsal-20261110042011-29123-db-1 Healthy 
+ Container todo-week4-rehearsal-20261110042011-29123-proxy-1 Healthy 
+ Container todo-week4-rehearsal-20261110042011-29123-app-1 Healthy 
+PASS /health status=200
+PASS original task survived container recreation
+2026-11-10T04:20:44Z Take a production snapshot; all destructive demonstration operations use an isolated database.
+2026-11-10T04:20:45Z BACKUP OK database=todo archive=/home/ubuntusever/.config/todo/rehearsals/todo-week4-rehearsal-20261110042011-29123/backups/todo_20261110T042044Z_32047.dump
+PASS: selected archive SHA-256 verified
+2026-11-10T04:20:45Z RESTORE OK database=week3_restore_trial_20261110042044_32031 archive=/home/ubuntusever/.config/todo/rehearsals/todo-week4-rehearsal-20261110042011-29123/backups/todo_20261110T042044Z_32047.dump
+INSERT 0 1
+2026-11-10T04:20:45Z BACKUP OK database=week3_restore_trial_20261110042044_32031 archive=/home/ubuntusever/.config/todo/rehearsals/todo-week4-rehearsal-20261110042011-29123/backups/week3_restore_trial_20261110042044_32031_20261110T042045Z_32314.dump
+DELETE 1
+PASS: selected archive SHA-256 verified
+2026-11-10T04:20:46Z RESTORE OK database=week3_restore_result_20261110042044_32031 archive=/home/ubuntusever/.config/todo/rehearsals/todo-week4-rehearsal-20261110042011-29123/backups/week3_restore_trial_20261110042044_32031_20261110T042045Z_32314.dump
+Before deletion: 2|cb465f8b94876a60f12afaa8c86cb4cf
+After deletion: 1|7e7d6bbb3d6080b465fba472a40f1379
+After restore: 2|cb465f8b94876a60f12afaa8c86cb4cf
+ id |                  title                   
+----+------------------------------------------
+  2 | week3-restore-proof-20261110042044_32031
+(1 row)
+
+2026-11-10T04:20:46Z PASS: restored row count and full task checksum match; production was not modified. Verification DBs: week3_restore_trial_20261110042044_32031 week3_restore_result_20261110042044_32031
+2026-11-10T04:20:46Z Retain databases for evidence; remove them later using dropdb only after checking their names.
+PASS /health status=200
+PASS ALL 2026-11-10T04:20:46Z independent deployment, 3 incidents, persistence, privileges, restore
+Retained project=todo-week4-rehearsal-20261110042011-29123 config=/home/ubuntusever/.config/todo/rehearsals/todo-week4-rehearsal-20261110042011-29123 for defense. Use: bash scripts/week4/control-rehearsal.sh /home/ubuntusever/.config/todo/rehearsals/todo-week4-rehearsal-20261110042011-29123 status|logs|cleanup
