@@ -1,3 +1,5 @@
+> Tài liệu lịch sử tuần 1. Không chạy lệnh cài systemd này trên stack Compose hiện tại; dùng ../week4/DEPLOYMENT.md.
+
 # Todo Task Manager — DevOps Final Project (Week 1)
 
 **Môn:** DevOps — HK 2026<br>
@@ -13,7 +15,7 @@
 | Phùng Ngô Huy Bảo | Thành viên | Ứng dụng Flask ban đầu, CRUD, template, review bản migration PostgreSQL | Commit review + test CRUD |
 | Đào Tuấn Bảo | Thành viên | Kiểm thử chức năng, chạy `verify-app.sh`, thu log/ảnh, troubleshooting playbook | Commit evidence + ảnh/log |
 
-> Bảng này là **phân công**, không phải tuyên bố đã hoàn thành. Mỗi thành viên phải có ít nhất một commit thật trước buổi demo; cập nhật nhật ký tại [`docs/team/contribution-log.md`](docs/team/contribution-log.md).
+> Bảng này là **phân công**, không phải tuyên bố đã hoàn thành. Mỗi thành viên phải có ít nhất một commit thật trước buổi demo; cập nhật nhật ký tại [`docs/team/contribution-log.md`](../../docs/team/contribution-log.md).
 
 ## 2. Mục tiêu Week 1
 
@@ -56,9 +58,9 @@ Checkpoint: **Deploy a Working Application** — tối đa 2.0/10 điểm.
 
 ## 4. Kiến trúc
 
-![Architecture](docs/architecture.png)
+![Architecture](../../docs/architecture.png)
 
-Sơ đồ: [`docs/architecture.png`](docs/architecture.png); giải thích chi tiết tại [`docs/architecture.md`](docs/architecture.md).
+Sơ đồ: [`docs/architecture.png`](../../docs/architecture.png); giải thích chi tiết tại [`docs/architecture.md`](../../docs/architecture.md).
 
 ```mermaid
 flowchart LR
@@ -73,8 +75,8 @@ flowchart LR
 
 | Thành phần | Công nghệ | Vị trí / cổng | Vai trò |
 |---|---|---|---|
-| Client | Safari/Chrome trên macOS | `192.168.64.1` (UTM host) | Người dùng cuối |
-| Network | UTM Shared Network | `192.168.64.0/24` | NAT, host ↔ VM |
+| Client | Safari/Chrome trên macOS | `PRIVATE_VM_NETWORK` (UTM host) | Người dùng cuối |
+| Network | UTM Shared Network | `PRIVATE_VM_NETWORK` | NAT, host ↔ VM |
 | Firewall | UFW | VM | Chỉ mở 22/tcp, 80/tcp |
 | Reverse proxy | Nginx | VM, `0.0.0.0:80` | Nhận HTTP, chuyển tới Gunicorn |
 | App server | Gunicorn | VM, `127.0.0.1:5000` | Chạy Flask, 3 worker |
@@ -136,7 +138,7 @@ Phiên bản Python/PostgreSQL/Nginx thực tế phải được ghi lại trong
   free -h
   df -h /
   ```
-- UTM network: **Shared Network**. Mac host truy cập VM qua IP `192.168.64.x`.
+- UTM network: **Shared Network**. Mac host truy cập VM qua IP `PRIVATE_VM_NETWORK`.
 - Không cần public IP, domain hay mở port trên router vì demo trên chính máy Mac.
 - IP của VM có thể đổi sau khi reboot; luôn kiểm tra:
   ```bash
@@ -404,7 +406,7 @@ Không được làm:
 
 ## 12. Bằng chứng nộp bài
 
-Xem checklist chi tiết tại [`docs/evidence/README.md`](docs/evidence/README.md).
+Xem checklist chi tiết tại [`docs/evidence/README.md`](../../docs/evidence/README.md).
 
 Tối thiểu cần có:
 
@@ -527,7 +529,7 @@ sudo -u postgres psql -d todo
 
 ## 15. Tuần 2 — Containerization & CI/CD
 
-Đã triển khai `Dockerfile`, `compose.yaml`, test tích hợp PostgreSQL và GitHub Actions trên Ubuntu VM UTM. Xem [hướng dẫn triển khai tuần 2](docs/week2.md) và [bằng chứng thực tế](docs/evidence/README.md).
+Đã triển khai `Dockerfile`, `compose.yaml`, test tích hợp PostgreSQL và GitHub Actions trên Ubuntu VM UTM. Xem [hướng dẫn triển khai tuần 2](../../docs/week2.md) và [bằng chứng thực tế](../../docs/evidence/README.md).
 
 ### Đã kiểm chứng trên VM
 
@@ -550,4 +552,4 @@ sudo -u postgres psql -d todo
 
 ## Week 3: Monitoring, Security & Reliability
 
-Setup, backup/restore policy and runtime acceptance: [Week 3 operations](docs/week3/README.md). Online speaking script: [Demo Week 3](docs/week3/DEMO_ONLINE.md).
+Setup, backup/restore policy and runtime acceptance: [Week 3 operations](../../docs/week3/README.md). Online speaking script: [Demo Week 3](../../docs/week3/DEMO_ONLINE.md).

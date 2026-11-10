@@ -2,6 +2,7 @@
 set -Eeuo pipefail
 umask 077
 ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
+docker info >/dev/null
 ENV_FILE="${APP_ENV_FILE:-$HOME/.config/todo/production.env}"
 [[ "$ENV_FILE" == /* && "$ENV_FILE" != "$ROOT"/* ]] || { echo 'Use an absolute environment file OUTSIDE the repository'; exit 1; }
 if [[ ! -f "$ENV_FILE" ]]; then

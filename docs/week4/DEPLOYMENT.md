@@ -69,7 +69,8 @@ Cấu hình cron theo hướng dẫn tuần 3, dùng đường dẫn repo thực
 EVIDENCE_FILE=/tmp/week4-rehearsal.txt bash scripts/week4/rehearse.sh
 ```
 
-Script chọn hai cổng loopback rảnh, in project `todo-week4-rehearsal-*`, tạo credentials và DB riêng. Chỉ các container thử nghiệm bị dừng/sửa proxy. Script kiểm tra app stopped, DB stopped, upstream sai port, quyền DB, persistence, backup/restore. Nó giữ project để hỏi đáp. Muốn dọn dẹp: lấy đúng project/config path từ output và dùng `docker compose -p PROJECT --env-file CONFIG/compose.env -f compose.yaml -f deploy/rehearsal.compose.yaml down`; truyền cùng `REHEARSAL_PROXY_CONFIG`, `APP_BIND_PORT`, `REHEARSAL_PROXY_PORT` đã in nếu Compose yêu cầu. Không xóa volume production. Thư mục config và log có mode riêng tư.
+Script chọn hai cổng loopback rảnh, in project `todo-week4-rehearsal-*`, tạo credentials và DB riêng. Chỉ container thử nghiệm bị dừng/sửa proxy. Script giữ project để hỏi đáp, lưu thông số tại CONFIG/runtime.env. Dùng `bash scripts/week4/control-rehearsal.sh CONFIG status` để xem lại, `logs` để tra log, `cleanup` để down đúng project thử. Helper chặn project không có prefix rehearsal và giữ volume. Không dùng helper này cho production. Thư mục config/credentials nằm ngoài repo.
+
 
 ## Giới hạn
 

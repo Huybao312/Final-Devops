@@ -10,13 +10,13 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 DATABASE_URL = os.environ.get("DATABASE_URL", "").strip()
 if not DATABASE_URL:
     raise RuntimeError(
-        "DATABASE_URL is not set. Create /etc/todo-task-manager.env from "
-        "deploy/todo-task-manager.env.example (or run scripts/setup-db.sh)."
+        "DATABASE_URL is not set. Start the app through Docker Compose with "
+        "the private production environment file; see docs/week4/DEPLOYMENT.md."
     )
 
 app = Flask(__name__)
 app.config["MAX_CONTENT_LENGTH"] = 64 * 1024
-app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1)
+app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1)
 
 
 def get_db() -> psycopg.Connection:
