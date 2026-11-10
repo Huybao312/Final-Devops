@@ -1,0 +1,8 @@
+# Independent project/volume/network. Never use with production project name.
+services:
+  proxy:
+    image: nginx:1.28-alpine
+    ports: ['127.0.0.1:${REHEARSAL_PROXY_PORT:-15080}:80']
+    volumes: ['${REHEARSAL_PROXY_CONFIG:-./deploy/rehearsal-nginx.conf}:/etc/nginx/conf.d/default.conf:ro']
+    networks: [frontend]
+    depends_on: [app]

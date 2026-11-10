@@ -12,3 +12,7 @@ todo.db
 *.env
 *.dump
 *.sql.gz
+
+# Generated artifact intermediates (release PDFs are versioned in docs/week4).
+output/
+tmp/

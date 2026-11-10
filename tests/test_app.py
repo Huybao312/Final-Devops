@@ -54,3 +54,34 @@ def test_health_and_crud():
         finally:
             with psycopg.connect(os.environ["DATABASE_URL"]) as db:
                 db.execute("DELETE FROM tasks WHERE id = %s", (task_id,))
+
+
+@pytest.mark.parametrize("data", [
+    {"title": " "}, {"title": "x" * 201},
+    {"title": "valid", "description": "x" * 1001},
+    {"title": "bad\x00title"},
+])
+def test_invalid_input_does_not_write(data):
+    with psycopg.connect(os.environ["DATABASE_URL"]) as db:
+        before = db.execute("SELECT count(*) FROM tasks").fetchone()[0]
+    with app.test_client() as client:
+        for endpoint in ("/tasks", "/tasks/1/edit"):
+            response = client.post(endpoint, data=data)
+            assert response.status_code == 302 and "error=" in response.location
+    with psycopg.connect(os.environ["DATABASE_URL"]) as db:
+        assert db.execute("SELECT count(*) FROM tasks").fetchone()[0] == before
+
+
+def test_health_db_failure(monkeypatch):
+    def unavailable(*args, **kwargs):
+        raise psycopg.OperationalError("simulated unavailable database")
+    monkeypatch.setattr(psycopg, "connect", unavailable)
+    with app.test_client() as client:
+        response = client.get("/health")
+        assert response.status_code == 503
+        assert response.json == {"status": "unhealthy"}
+
+
+def test_request_limit():
+    with app.test_client() as client:
+        assert client.post("/tasks", data={"title": "x" * 70000}).status_code == 413

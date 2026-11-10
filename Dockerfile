@@ -10,7 +10,7 @@ WORKDIR /app
 COPY --from=builder /opt/venv /opt/venv
 COPY app.py ./
 COPY templates ./templates
-RUN useradd --system --uid 10001 --home-dir /app --no-create-home appuser
+RUN useradd --uid 10001 --user-group --home-dir /app --no-create-home --shell /usr/sbin/nologin appuser
 USER appuser
 EXPOSE 5000
 CMD ["gunicorn", "--workers", "2", "--bind", "0.0.0.0:5000", "--no-control-socket", "--access-logfile", "-", "--capture-output", "--error-logfile", "-", "app:app"]

@@ -1,0 +1,10 @@
+Live Ubuntu verification on 2026-11-10, candidate 83e0e1dc1e528d11d412f7200d08e6dfd24c2d4d.
+Command: deploy-clean.sh with independent TODO_PROJECT, private APP_ENV_FILE and a free loopback APP_BIND_PORT.
+Project: todo-week4-clean-1794284187
+Observed: fresh network and postgres_data volume created; DB/app healthy.
+Observed: /health healthy; /version matched candidate SHA.
+PASS deployment health and version=83e0e1dc1e528d11d412f7200d08e6dfd24c2d4d
+Second call: init-env.sh for same project with a missing alternative env file.
+Observed: Existing DB volume found, but no environment file. Restore original secrets; do not generate replacement credentials.
+PASS_existing_volume_guard
+No production container or data was used by this command. This verifies the app deployment script on existing Ubuntu Docker Engine; it is not a factory reset or reinstallation of the OS.

@@ -35,3 +35,7 @@ Chỉ ghi **việc thật đã làm**. Mỗi dòng phải có commit hash hoặc
 - Commit evidence + ảnh.
 
 > Nếu một thành viên không có commit thật, không ghi tên vào cột "việc đã làm". Điểm cá nhân dựa trên commit log và câu trả lời bảo vệ; ghi khống dễ bị phát hiện khi giảng viên hỏi.
+
+## Xác nhận phân công cho bản cuối
+
+Ngày 10/11/2026, chủ repository xác nhận danh sách và phân công ba thành viên ở README vẫn đúng. Đây là xác nhận phân công, không phải bằng chứng mỗi người tự viết các commit hỗ trợ bởi coding agent. Mỗi thành viên cần tự review, chạy lại, ghi công việc thực tế và thuyết minh phần phụ trách trước khi nộp.

@@ -1,0 +1,4 @@
+2026-11-10: pytest against disposable PostgreSQL 18 container on local Docker Desktop.
+7 passed in 2.16s
+Cases: CRUD/health/counter; four invalid-input combinations tested on create/edit; DB-failure health 503; request-size 413.
+Disposable test database/container removed after execution.
