@@ -25,7 +25,7 @@
 <body>
   <main>
     <h1>Todo Task Manager</h1>
-    <p class="subtitle">Plan your day, one task at a time. — Week 2 live demo <span class="task-count">Open tasks: {{ open_tasks }}</span></p>
+    <p class="subtitle">A clear plan for every day. <span class="task-count">Open tasks: {{ open_tasks }}</span></p>
     <section class="card">
       <form class="new-task" method="post" action="{{ url_for('create_task') }}">
         <input name="title" maxlength="200" placeholder="Task title" required aria-label="Task title">

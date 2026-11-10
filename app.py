@@ -15,13 +15,17 @@ if not DATABASE_URL:
     )
 
 app = Flask(__name__)
+app.config["MAX_CONTENT_LENGTH"] = 64 * 1024
 app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1)
 
 
 def get_db() -> psycopg.Connection:
     """Return one PostgreSQL connection for the current request."""
     if "db" not in g:
-        g.db = psycopg.connect(DATABASE_URL, row_factory=dict_row)
+        g.db = psycopg.connect(
+            DATABASE_URL, row_factory=dict_row, connect_timeout=3,
+            options="-c statement_timeout=5000 -c lock_timeout=2000",
+        )
     return g.db
 
 
@@ -46,8 +50,9 @@ def index():
 def create_task():
     title = request.form.get("title", "").strip()
     description = request.form.get("description", "").strip()
-    if not title:
-        return redirect(url_for("index", error="Task title is required."))
+    error = validate_task(title, description)
+    if error:
+        return redirect(url_for("index", error=error))
 
     db = get_db()
     db.execute(
@@ -62,8 +67,9 @@ def create_task():
 def edit_task(task_id: int):
     title = request.form.get("title", "").strip()
     description = request.form.get("description", "").strip()
-    if not title:
-        return redirect(url_for("index", error="Task title is required."))
+    error = validate_task(title, description)
+    if error:
+        return redirect(url_for("index", error=error))
 
     db = get_db()
     result = db.execute(
@@ -103,7 +109,8 @@ def delete_task(task_id: int):
 def health():
     try:
         get_db().execute("SELECT 1").fetchone()
-    except psycopg.Error:
+    except psycopg.Error as error:
+        app.logger.warning("health database check failed (%s)", type(error).__name__)
         return jsonify(status="unhealthy"), 503
     return jsonify(status="healthy"), 200
 
@@ -111,6 +118,16 @@ def health():
 @app.get("/version")
 def version():
     return jsonify(version=os.environ.get("APP_VERSION", "local")), 200
+
+
+def validate_task(title: str, description: str) -> str | None:
+    if not title:
+        return "Task title is required."
+    if len(title) > 200 or len(description) > 1000:
+        return "Title must be at most 200 characters; description at most 1000."
+    if "\x00" in title or "\x00" in description:
+        return "Task contains an unsupported character."
+    return None
 
 
 if __name__ == "__main__":

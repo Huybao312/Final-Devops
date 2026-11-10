@@ -1,0 +1,33 @@
+name: Week 4 final verification
+on:
+  push:
+    branches: [week4-final]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  independent-deployment:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Script and configuration checks
+        env:
+          DB_ADMIN_PASSWORD: validation-only
+          DB_APP_PASSWORD: validation-only
+          GRAFANA_ADMIN_PASSWORD: validation-only
+        run: |
+          for script in scripts/week3/*.sh scripts/week4/*.sh; do bash -n "$script"; done
+          docker compose config -q
+          docker compose -f monitoring/compose.yaml config -q
+          python3 scripts/week3/test-checksum.py
+      - name: Fresh Compose volumes and actual incident/restore drills
+        env:
+          EVIDENCE_FILE: /tmp/week4-rehearsal.txt
+        run: bash scripts/week4/rehearse.sh
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: week4-rehearsal-log
+          path: /tmp/week4-rehearsal.txt

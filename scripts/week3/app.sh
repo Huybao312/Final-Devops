@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 source "$(dirname "$0")/common.sh"
-APP_ENV_FILE="${APP_ENV_FILE:-/home/ubuntusever/Final-Devops-week2/.env}"
+APP_ENV_FILE="${APP_ENV_FILE:-$HOME/.config/todo/production.env}"
+if [[ ! -f "$APP_ENV_FILE" && -f "$HOME/Final-Devops-week2/.env" ]]; then
+  APP_ENV_FILE="$HOME/Final-Devops-week2/.env"
+fi
 [[ -f "$APP_ENV_FILE" ]] || { echo 'Set APP_ENV_FILE to your production Compose env file' >&2; exit 1; }
 case "${1:-status}" in
   stop|start|status|logs) ;;
