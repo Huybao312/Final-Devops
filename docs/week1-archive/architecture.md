@@ -8,7 +8,7 @@
 
 ## 1. Sơ đồ
 
-Ảnh kiến trúc: [`architecture.png`](architecture.png).
+Ảnh kiến trúc: [`architecture.png`](../architecture.png).
 
 ```mermaid
 flowchart LR
