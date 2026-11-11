@@ -2,7 +2,7 @@
   "uid": "todo-week3",
   "title": "Todo Week 3 \u2014 Operations",
   "schemaVersion": 39,
-  "version": 1,
+  "version": 2,
   "refresh": "10s",
   "time": {
     "from": "now-15m",
@@ -140,7 +140,7 @@
       },
       "targets": [
         {
-          "expr": "ALERTS{alertstate=\"firing\"}",
+          "expr": "count(ALERTS{alertstate=\"firing\"}) or vector(0)",
           "refId": "A"
         }
       ],
@@ -148,7 +148,6 @@
         "defaults": {
           "unit": "short",
           "min": 0,
-          "max": 1,
           "decimals": 0
         },
         "overrides": []

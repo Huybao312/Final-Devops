@@ -77,3 +77,11 @@ Script chọn hai cổng loopback rảnh, in project `todo-week4-rehearsal-*`, t
 Không có public TLS/domain, app authentication/CSRF token, HA hoặc rollback tự động. App giới hạn payload/input, dùng parameterized SQL, proxy loopback, DB least privilege; chưa đủ để coi là dịch vụ Internet multi-user. Backup trên VM và bản sao Mac cùng thiết bị không chịu được mất cả máy Mac. Ảnh cũ phải ghi đúng ngày/SHA; không dùng chúng để tuyên bố trạng thái hiện tại.
 
 Tham khảo: https://docs.docker.com/engine/install/ubuntu/ ; https://docs.github.com/en/actions/hosting-your-own-runners ; https://www.postgresql.org/docs/18/app-pgrestore.html
+
+## Kiểm tra giờ trước demo và khi VM vừa resume
+
+Trên Mac và Ubuntu chạy `date -u` để đối chiếu. Trên Ubuntu chạy `chronyc tracking`; nếu lệch đáng kể, `sudo chronyc makestep`, đợi vài lần scrape rồi refresh Grafana. Đồng hồ sai có thể làm dashboard trống và GitHub runner lỗi token. Host installer bản cuối cài chrony và đồng bộ giờ; máy hiện hữu kiểm tra trước khi tự thay đổi dịch vụ NTP.
+
+## Đường dẫn trên VM đang dùng
+
+Repo chỉnh sửa nằm trên Mac tại `/Users/macos/Final Devops/Final-Devops`. Các lệnh vận hành Linux chạy sau khi SSH vào Ubuntu và `cd /home/ubuntusever/Final-Devops-week4`. Cài mới theo guide dùng `~/Final-Devops`; thay đường dẫn vận hành nếu cài trên máy khác. GitHub Actions checkout trong `_work` là workspace runner tự quản lý; không xóa nó khi job đang chạy. Thư mục config và backup ở ngoài repo để tránh commit secrets/dữ liệu.

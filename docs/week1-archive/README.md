@@ -554,4 +554,4 @@ sudo -u postgres psql -d todo
 
 ## Week 3: Monitoring, Security & Reliability
 
-Setup, backup/restore policy and runtime acceptance: [Week 3 operations](../../docs/week3/README.md). Online speaking script: [Demo Week 3](../../docs/week3/DEMO_ONLINE.md).
+Setup, backup/restore policy and runtime acceptance: [Week 3 operations](../../docs/week3/README.md).

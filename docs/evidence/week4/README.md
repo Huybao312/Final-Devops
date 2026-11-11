@@ -10,3 +10,11 @@ Private network addresses in raw rehearsal logs are redacted as `[internal-addre
 The video walkthrough is a clearly labeled TTS rehearsal, not a recording of the named team members. Final member narration and contribution confirmation are human submission tasks.
 
 Final-candidate repeat on source f69d2059605b57571554772d884e0de6a3709777: rehearsal-final-vm.txt, 04:20:11–04:20:46 UTC, PASS all checks. Older runs remain identified by their own SHA/date.
+
+## Kiểm chứng bổ sung 11/11/2026
+
+- `final-tests-2026-11-11.txt`: 7 test tích hợp trên PostgreSQL riêng; SHA source thử ghi trong file.
+- `rehearsal-2026-11-11.txt`: triển khai độc lập, ba sự cố/phục hồi, persistence, least privilege, restore 2→1→2 và checksum khớp.
+- `configuration-checks-2026-11-11.txt`: cú pháp shell, Compose, checksum và alert rules.
+
+Các mốc thời gian trước khi sửa lệch giờ VM phản ánh đồng hồ VM lúc ghi log, không phải phép đo thời gian thực. Không dùng chênh lệch timestamp qua lần chỉnh giờ để suy luận downtime. Báo cáo và video cuối do nhóm bổ sung riêng.

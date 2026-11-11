@@ -49,3 +49,20 @@ Nginx host production ghi lỗi upstream tại `/var/log/nginx/todo-error.log` (
 - **Khắc phục:** tái sử dụng tunnel; chỉ đóng tiến trình đã xác minh thuộc phiên của mình khi muốn tạo lại. Không kill tùy tiện tiến trình khác.
 - **Xác nhận:** ba URL mở được; app health 200.
 - **Phòng tránh:** một bộ ports thống nhất và ExitOnForwardFailure; mở tunnel trước buổi demo, giữ đúng một terminal.
+
+## 6. Dashboard No data, runner token expired — đồng hồ VM sai (11/11/2026)
+
+- **Triệu chứng:** dashboard Last 15 minutes trống dù Prometheus targets đều UP; workflow deploy chờ runner. VM đã chậm khoảng 5 giờ 43 phút so với Mac; chrony báo system time hơn 20.000 giây slow.
+- **Xác minh:** so sánh `date -u` trên Mac và Ubuntu; trên Ubuntu chạy `chronyc tracking`, `timedatectl`; kiểm tra `/api/v1/targets` và query `up` ở Prometheus. Đổi timezone không sửa được sai lệch đồng hồ thực tế.
+- **Khắc phục trên Ubuntu:** `sudo chronyc makestep`. Đợi vài lần scrape, refresh dashboard Last 15 minutes. CPU dùng rate 2 phút nên cần đủ mẫu mới sau bước chỉnh giờ. Không sửa timestamp dữ liệu cũ để giả lập lịch sử.
+- **Runner:** `systemctl status actions.runner.Huybao312-Final-Devops.utm-todo-arm64.service`. Nếu service dừng, restart bằng sudo; nếu log báo registration đã bị xóa, đăng ký lại qua Settings → Actions → Runners bằng token mới, giữ label `todo-vm`, rồi start service. Không ghi token vào repo hoặc evidence.
+- **Xác nhận:** đồng hồ khớp; CPU/RAM/health/latency có dữ liệu mới; Active alerts bằng 0 khi không firing; workflow build-test/deploy đều xanh và `/version` khớp commit.
+- **Phòng tránh:** đồng bộ giờ trước demo và sau khi VM resume; Ubuntu dùng chrony, lệnh của systemd-timesyncd có thể không áp dụng. VM tạm dừng có thể lệch giờ, NTP đang active chưa chứng minh giờ đã đúng.
+
+## 7. No such file, REHEARSAL rỗng — chạy sai terminal/thư mục
+
+- **Triệu chứng:** `bash: scripts/...: No such file or directory`, hoặc helper báo không phải rehearsal directory.
+- **Xác minh:** `hostname`, `pwd`, `printf '%s\n' "$REHEARSAL"`. Terminal Mac không có Docker/socket/firewall của Ubuntu; SSH mới không giữ biến từ phiên trước.
+- **Khắc phục:** SSH vào VM, `cd /home/ubuntusever/Final-Devops-week4`, gán REHEARSAL bằng config directory từ dòng cuối của rehearse.sh, rồi `source "$REHEARSAL/runtime.env"` để nạp cổng và cấu hình. Nếu chưa có bản PASS thì chạy rehearse.sh trước.
+- **Xác nhận:** status liệt kê container prefix rehearsal; health qua đúng cổng proxy riêng trả 200. Production dùng project todo-task-manager và cổng Nginx 80.
+- **Phòng tránh:** ghi nơi chạy trước mỗi nhóm lệnh, giữ cùng phiên SSH trong phần sự cố; không sao chép các từ viết tắt trong bảng như lệnh hoàn chỉnh.

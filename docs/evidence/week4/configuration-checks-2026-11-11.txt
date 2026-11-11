@@ -1,0 +1,10 @@
+.
+----------------------------------------------------------------------
+Ran 1 test in 0.002s
+
+OK
+Checking /config/alerts.yml
+  SUCCESS: 2 rules found
+
+  SUCCESS
+

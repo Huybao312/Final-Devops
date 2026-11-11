@@ -60,7 +60,6 @@ Tạo thư mục sao lưu trước khi đặt lịch. Điểm khôi phục tươ
 - Danh sách kiểm tra bảo mật/cổng: `SECURITY.md`.
 - Script và chính sách sao lưu/khôi phục: `scripts/week3/` và tài liệu này.
 - Sổ tay xử lý sự cố (3 tình huống): `PLAYBOOK.md`.
-- Kịch bản trình diễn trực tuyến: `DEMO_ONLINE.md`.
 - Lưu ảnh chụp, chuyển trạng thái cảnh báo, nhật ký khôi phục và nhật ký sự cố thật tại `docs/evidence/week3/` sau khi che thông tin bí mật/địa chỉ riêng tư. Không thay kiểm chứng thực tế bằng đầu ra giả.
 
 Tài liệu tham khảo: [Node Exporter](https://prometheus.io/docs/guides/node-exporter/), [quy tắc cảnh báo Prometheus](https://prometheus.io/docs/prometheus/latest/configuration/alerting_rules/), [pg_restore của PostgreSQL 18](https://www.postgresql.org/docs/18/app-pgrestore.html).

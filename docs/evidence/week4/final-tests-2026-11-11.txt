@@ -1,0 +1,4 @@
+Isolated local PostgreSQL 18 integration tests; 2026-11-11
+Source: 71124e27c188beb29c5505597ac7d6120271e120
+.......                                                                  [100%]
+7 passed in 0.63s

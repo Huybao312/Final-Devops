@@ -10,9 +10,9 @@
 | ≥3 sự cố thực nghiệm | PLAYBOOK.md và rehearsal-vm.txt | App stopped, DB stopped, wrong proxy upstream PASS |
 | Final repo + release/tag | RELEASE.md + GitHub release | Tag/manifest được tạo sau CI cuối |
 | Sơ đồ final + operations README | architecture.svg, ARCHITECTURE.md, README, docs/week3 | Hoàn thiện |
-| Technical paper 6–10 trang đề xuất | REPORT.md / REPORT.pdf | PDF 8 trang, đã render kiểm tra |
-| Video thuyết minh 5–10 phút | VIDEO_SCRIPT.md, bản walkthrough giọng tổng hợp 5 phút 30 giây | Có bản tập 5:30; nhóm cần thu thuyết minh thật trước khi nộp, không giả giọng thành viên |
-| Q&A/đóng góp cá nhân | DEMO_ONLINE.md + contribution-log.md | Danh sách/phân công đã xác nhận; mỗi người phải tự bảo vệ và xác nhận phần thực hiện |
+| Technical paper 6–10 trang đề xuất | REPORT.md / REPORT.pdf | Bản báo cáo hiện có; báo cáo cuối theo template do nhóm bổ sung riêng |
+| Video thuyết minh 5–10 phút | Nhóm nộp riêng | Do nhóm bổ sung sau |
+| Q&A/đóng góp cá nhân | ../team/contribution-log.md | Danh sách/phân công đã xác nhận; mỗi người phải tự bảo vệ và xác nhận phần thực hiện |
 
 ## Giới hạn nghiệm thu
 

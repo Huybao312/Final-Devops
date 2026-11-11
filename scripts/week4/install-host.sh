@@ -9,7 +9,7 @@ if systemctl is-active --quiet flaskapp; then
   echo 'Legacy flaskapp is active. Use the Week 2 migration procedure, not clean installation.' >&2; exit 1
 fi
 apt-get update
-DEBIAN_FRONTEND=noninteractive apt-get install -y ca-certificates curl git nginx ufw openssl python3
+DEBIAN_FRONTEND=noninteractive apt-get install -y ca-certificates curl git nginx ufw openssl python3 chrony
 if ! docker compose version >/dev/null 2>&1; then
   install -m 0755 -d /etc/apt/keyrings
   curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
@@ -25,7 +25,8 @@ EOF
   apt-get update
   DEBIAN_FRONTEND=noninteractive apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 fi
-systemctl enable --now docker nginx
+systemctl enable --now docker nginx chrony
+chronyc makestep
 usermod -aG docker "$SUDO_USER"
 install -m 0644 "$ROOT/nginx/flaskapp" /etc/nginx/sites-available/flaskapp
 ln -sf /etc/nginx/sites-available/flaskapp /etc/nginx/sites-enabled/flaskapp

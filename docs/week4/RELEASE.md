@@ -1,4 +1,4 @@
-# Release v1.0.0-final
+# Release v1.0.1-final
 
 Release tích hợp đồ án DevOps tuần 1–4. Tag trỏ vào commit main đã qua build-test, independent rehearsal và deployment; SHA cụ thể được ghi trong manifest của release. Endpoint /version phải khớp SHA được deploy. Thay đổi demo sau này tạo SHA mới; release tag cũ vẫn giữ ý nghĩa snapshot của thời điểm phát hành.
 
@@ -10,11 +10,12 @@ Release tích hợp đồ án DevOps tuần 1–4. Tag trỏ vào commit main đ
 - Monitoring CPU/RAM, end-to-end health, tested alert state, log lookup.
 - Backup/restore có checksum chính archive được chọn, guard không restore đè production.
 - Fresh-deployment guide, rehearsal độc lập và playbook 5 sự cố.
-- Paper PDF 8 trang, kịch bản online ba thành viên, script video và evidence thực nghiệm.
+- Evidence thực nghiệm, kiểm thử tích hợp và playbook vận hành.
+- Báo cáo và video cuối do nhóm bổ sung riêng; repo không chứa kịch bản trình bày.
 
 ## Không được hiểu sai
 
-Bản final không tuyên bố public Internet production readiness, HA, auth app/CSRF token, TLS public hay disaster recovery mất toàn bộ Mac. Không đưa credentials/database dumps vào release. Bản video giọng tổng hợp tham khảo phải được nhóm thay/xác nhận bằng thuyết minh thật theo yêu cầu môn học trước khi nộp.
+Bản final không tuyên bố public Internet production readiness, HA, auth app/CSRF token, TLS public hay disaster recovery mất toàn bộ Mac. Không đưa credentials/database dumps vào release. Video thuyết minh do các thành viên thực hiện và nộp riêng.
 
 ## Kiểm tra trước nộp
 
